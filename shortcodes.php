@@ -28,6 +28,7 @@ function shortcodes_page(){
 			<li>[mos-embed url="" ratio="32by9/21by9/16by9/4by3/1by1"] <span class="sdetagils">displays Embeds</span></li>		
 			<li>[mos-popup url="" icon-class=""] <span class="sdetagils">displays Popup</span></li>		
 			<li>[social-menu class="" links=""] <span class="sdetagils">displays Social Icons</span></li>		
+			<li>[mos-progress title="" amount="" height="" class=""] <span class="sdetagils">displays progress bar</span></li>	
 		</ol>
 	</div>
 	<?php
@@ -235,6 +236,27 @@ function mos_popup_func($atts = array(), $content = '') {
 }
 add_shortcode( 'mos-popup', 'mos_popup_func' );
 
+function mos_progress_func($atts = array(), $content = '') {
+	$atts = shortcode_atts( array(
+        'title' => '',
+        'amount' => 0,
+        'height' => 0,
+        'class' => '',
+	), $atts, 'mos-progress' );
+    ob_start(); ?>
+        <div class="mos-progress-wrap">
+            <div class="text-part">
+                <span class="title-part"><?php echo $atts['title'] ?></span>
+                <span class="amount-part"><?php echo $atts['amount'] ?>%</span>
+            </div>
+            <div class="progress" style="<?php if (@$atts['height']) {echo 'height:'.$atts['height'].'px';} ?>">
+                <div class="progress-bar <?php echo $atts['class'] ?>" role="progressbar" style="width: <?php echo $atts['amount'] ?>%" aria-valuenow="<?php echo $atts['amount'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>          
+        </div>
+    <?php $html = ob_get_clean();
+    return $html;
+}
+add_shortcode( 'mos-progress', 'mos_progress_func' );
 function highlight_func($atts = array(), $content = '') {
 	$atts = shortcode_atts( array(
         'background' => '',
