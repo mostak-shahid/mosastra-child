@@ -41,6 +41,7 @@ function home_url_func( $atts = array(), $content = '' ) {
 	return home_url( $atts['slug'] );
 }
 add_shortcode( 'home-url', 'home_url_func' );
+
 function site_identity_func( $atts = array(), $content = null ) {
 	global $forclient_options;
 	$logo_url = ($forclient_options['logo']['url']) ? $forclient_options['logo']['url'] : get_template_directory_uri(). '/images/logo.png';
@@ -81,15 +82,16 @@ function site_name_func( $atts = array(), $content = '' ) {
 	return $html;
 }
 add_shortcode( 'site-name', 'site_name_func' );
+
 function copyright_symbol_func() {
 	return '&copy;';
 }
 add_shortcode( 'copyright-symbol', 'copyright_symbol_func' );
+
 function this_year_func() {
 	return date('Y');
 }
 add_shortcode( 'this-year', 'this_year_func' );
-
 
 function feature_image_func( $atts = array(), $content = '' ) {
 	global $mosacademy_options;
@@ -257,6 +259,7 @@ function mos_progress_func($atts = array(), $content = '') {
     return $html;
 }
 add_shortcode( 'mos-progress', 'mos_progress_func' );
+
 function highlight_func($atts = array(), $content = '') {
 	$atts = shortcode_atts( array(
         'background' => '',
