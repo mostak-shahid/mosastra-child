@@ -154,7 +154,7 @@ function blog_teaser_func( $atts = array(), $content = '' ) {
     if ( $query->have_posts() ) :   
     $n = 0;
     ?>
-        <div class="mos-post-wrapper <?php $atts['class'] ?>">
+        <div class="mos-post-wrapper <?php echo $atts['class'] ?>">
             <div class="mos-post-grid <?php echo $atts['gap'] ?>">
                 <?php while ( $query->have_posts() ) : $query->the_post();?>
                     <?php
