@@ -5,5 +5,8 @@ jQuery(document).ready(function($){
 		} else {
 			$('.mos-sticky-header').removeClass('tiny');
 		}
-	});
+	});    
+    $('.jarallax').jarallax({
+        speed: 0.2
+    });
 });

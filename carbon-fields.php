@@ -188,7 +188,10 @@ function crb_attach_theme_options() {
                         <li>Waiting area cleaning.</li>
                     </ul>
                 </div>
+                
+                <?php if($fields['mos-pricing-btn-title'] && $fields['mos-pricing-btn-url']) : ?>
                 <div class="wp-block-buttons"><div class="wp-block-button"><a href="<?php echo esc_html( $fields['mos-pricing-btn-url'] ); ?>" title="" class="wp-block-button__link"><?php echo esc_html( $fields['mos-pricing-btn-title'] ); ?></a></div></div>
+                <?php endif;?>
             
             </div>
         </div>

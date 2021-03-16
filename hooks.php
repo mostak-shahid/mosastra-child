@@ -42,6 +42,17 @@ function mos_astra_header_before(){
     </div>
     <?php
 }
+/**
+ * Detect plugin. For use on Front End only.
+ */
+include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+ 
+// check for plugin using plugin name
+if ( !is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+    function is_shop(){
+        return false;
+    }
+}
 add_action('astra_content_top','mos_custom_header');
 function mos_custom_header(){
     if (is_home()) :

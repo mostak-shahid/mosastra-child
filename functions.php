@@ -27,6 +27,11 @@ function child_enqueue_styles() {
     wp_enqueue_script('jquery');
     wp_enqueue_style( 'fancybox', get_stylesheet_directory_uri() . '/plugins/fancybox/jquery.fancybox.min.css' );
     wp_enqueue_script('fancybox', get_stylesheet_directory_uri() . '/plugins/fancybox/jquery.fancybox.min.js', 'jquery');
+    
+    wp_enqueue_style( 'jarallax', get_stylesheet_directory_uri() . '/plugins/jarallax/jarallax.css' );
+    wp_enqueue_script('jarallax', get_stylesheet_directory_uri() . '/plugins/jarallax/jarallax.js', 'jquery');
+    wp_enqueue_script('jarallax-video', get_stylesheet_directory_uri() . '/plugins/jarallax/jarallax-video.js', 'jquery');
+    
     wp_enqueue_script('numscroller', get_stylesheet_directory_uri() . '/plugins/numscroller.js', 'jquery');
     
     wp_enqueue_style( 'font-awesome.min', get_stylesheet_directory_uri() . '/fonts/font-awesome-4.7.0/css/font-awesome.min.css' );
