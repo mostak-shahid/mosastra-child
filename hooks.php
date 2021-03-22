@@ -32,7 +32,7 @@ function mos_related_posts_func(){
         foreach($categories as $category){
             $term_ids[] = $category->term_id;
         }
-        var_dump(implode(',',$term_ids));
+        //var_dump(implode(',',$term_ids));
         $args = array(
             'posts_per_page' => 6,
             'cat' => implode(',',$term_ids),
