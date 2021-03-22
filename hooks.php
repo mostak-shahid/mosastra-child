@@ -10,38 +10,65 @@ function add_slug_body_class( $classes ) {
 }
 add_filter( 'body_class', 'add_slug_body_class' );
 
-add_action('astra_header_before','custom_sticky_header');
-function custom_sticky_header(){
+add_action( 'astra_template_parts_content', 'mos_author_details_func', 14 );
+function mos_author_details_func(){
+    if(is_single()) :
     ?>
-    <div class="main-header-bar-wrap mos-sticky-header">
-        <div <?php echo astra_attr( 'main-header-bar' ); ?>>
-            <div class="ast-container">
-                <div class="ast-flex main-header-container">
-                    <?php astra_masthead_content(); ?>
-                </div><!-- Main Header Container -->
-            </div><!-- ast-row -->
-            <?php astra_main_header_bar_bottom(); ?>
-        </div> <!-- Main Header Bar -->
-    </div> <!-- Main Header Bar Wrap -->
-    <?php
-}
-add_action('astra_main_header_bar_top', 'mos_astra_header_before', 5);
-function mos_astra_header_before(){
-    ?>
-    <div class="main-top-bar">
-        <div class="ast-container">
-            <div class="ast-flex main-top-bar-container">
-                <div class="column one">
-                    <ul class="contact_details">
-                        <li class="email"><i class="fa fa-phone"></i> <a href="tel:(646)583-1385">(646) 583-1385</a></li>
-                        <li class="phone"><i class="fa fa-phone"></i> <a href="tel:(646)583-1385">(646) 583-1385</a></li>
-                    </ul>                    
-                </div>
-            </div>
+    <div class="post-autor-details">
+        <div class="img-part"><?php echo get_avatar(get_the_author_meta('ID'),120) ?></div>
+        <div class="text-part">
+            <h4 class="author-name" itemprop="name"><a href="<?php echo get_the_author_meta('user_url') ?>" title="View all posts by <?php echo get_the_author_meta('display_name') ?>" rel="author" class="url fn n" itemprop="url"><?php echo get_the_author_meta('display_name') ?></a></h4>
+            <div class="author-description" itemprop="name"><?php echo get_the_author_meta('description') ?></div>
         </div>
     </div>
     <?php
+    endif;
 }
+add_action('astra_primary_content_bottom','mos_related_posts_func');
+function mos_related_posts_func(){
+    if(is_single()):
+        $term_ids = [];
+        $categories = get_the_category(get_the_ID());
+        foreach($categories as $category){
+            $term_ids[] = $category->term_id;
+        }
+        var_dump(implode(',',$term_ids));
+        $args = array(
+            'posts_per_page' => 6,
+            'cat' => implode(',',$term_ids),
+            'post__not_in' => array(get_the_ID())
+        );
+        // The Query
+        $the_query = new WP_Query( $args );
+
+        // The Loop
+        if ( $the_query->have_posts() ) : ?>
+        <div class="related-post">
+            <h2 class="section-title"><?php echo __('Related Posts') ?></h2>
+            
+            <div class="related-post-wrapper">
+                <?php while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
+
+                    <div class="post-content">
+                        <?php if (has_post_thumbnail()) : ?>
+                            <div class="ast-blog-featured-section post-thumb">
+                                <div class="post-thumb-img-content post-thumb"><a href="<?php echo get_the_permalink() ?>"><img width="373" height="210" src="<?php echo aq_resize(get_the_post_thumbnail_url('','full'), 373, 210, true) ?>" class="attachment-373x250 size-373x250 wp-post-image" alt="office cleaning safety tips - janitorial leads pro" loading="lazy" itemprop="image"></a></div>
+                            </div>
+                        <?php endif;?>
+                        <div class="related-entry-header">
+                            <h4 class="related-entry-title" itemprop="headline"><a href="<?php echo get_the_permalink() ?>" rel="bookmark"><?php echo get_the_title() ?></a></h4>
+                        </div>
+                    </div>       
+               
+                <?php endwhile; ?>
+            </div>
+        </div>
+        <?php endif;
+        /* Restore original Post Data */
+        wp_reset_postdata();        
+    endif;
+}
+
 /**
  * Detect plugin. For use on Front End only.
  */
