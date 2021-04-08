@@ -9,4 +9,5 @@ jQuery(document).ready(function($){
     $('.jarallax').jarallax({
         speed: 0.2
     });
+    $('.counter').counterUp();
 });

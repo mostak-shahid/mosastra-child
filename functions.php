@@ -32,7 +32,9 @@ function child_enqueue_styles() {
     wp_enqueue_script('jarallax', get_stylesheet_directory_uri() . '/plugins/jarallax/jarallax.js', 'jquery');
     wp_enqueue_script('jarallax-video', get_stylesheet_directory_uri() . '/plugins/jarallax/jarallax-video.js', 'jquery');
     
-    wp_enqueue_script('numscroller', get_stylesheet_directory_uri() . '/plugins/numscroller.js', 'jquery');
+    //wp_enqueue_script('numscroller', get_stylesheet_directory_uri() . '/plugins/numscroller.js', 'jquery');
+    wp_enqueue_script('jquery.waypoints.min', get_stylesheet_directory_uri() . '/plugins/jquery.counterup/jquery.waypoints.min.js', 'jquery');
+    wp_enqueue_script('jquery.counterup', get_stylesheet_directory_uri() . '/plugins/jquery.counterup/jquery.counterup.js', 'jquery');
     
     wp_enqueue_style( 'font-awesome.min', get_stylesheet_directory_uri() . '/fonts/font-awesome-4.7.0/css/font-awesome.min.css' );
     
