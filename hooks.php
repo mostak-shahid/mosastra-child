@@ -135,3 +135,8 @@ if ( ! function_exists( 'mos_post_classes' ) ) {
 	}
 }
 add_filter( 'post_class', 'mos_post_classes' );
+
+add_action( 'wp_head', 'add_mos_additional_coding', 999 );
+function add_mos_additional_coding() {
+    echo carbon_get_theme_option( 'mos_additional_coding' );
+}
