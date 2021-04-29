@@ -154,7 +154,7 @@ function crb_attach_theme_options() {
             )),
         Field::make( 'text', 'mos-pricing-btn-title', __( 'Button' ) ),
         Field::make( 'text', 'mos-pricing-btn-url', __( 'URL' ) ),
-        Field::make( 'select', 'mos-counter-alignment', __( 'Content Alignment' ) )
+        Field::make( 'select', 'mos-member-alignment', __( 'Content Alignment' ) )
         ->set_options( array(
             'left' => 'Left',
             'right' => 'Right',
@@ -164,8 +164,8 @@ function crb_attach_theme_options() {
     ->set_icon( 'list-view' )
     ->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
         ?>
-        <div class="mos-counter-pricing-wrapper <?php echo $attributes['className'] ?>">
-            <div class="mos-counter-pricing text-<?php echo esc_html( $fields['mos-counter-alignment'] ) ?>">            
+        <div class="mos-pricing-wrapper <?php echo $attributes['className'] ?>">
+            <div class="mos-pricing text-<?php echo esc_html( $fields['mos-member-alignment'] ) ?>">            
                 <div class="title-part">
                     <h3><?php echo esc_html( $fields['mos-pricing-title'] ); ?></h3>
                 </div>
