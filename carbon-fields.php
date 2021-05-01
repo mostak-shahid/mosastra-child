@@ -148,13 +148,13 @@ function crb_attach_theme_options() {
             ->set_attribute( 'placeholder', 'Ex: per clean / billed weekly' ),
         Field::make( 'text', 'mos-pricing-subtitle', __( 'Sub Heading' ) ),
         Field::make( 'textarea', 'mos-pricing-desc', __( 'Desacription' ) ),
-        Field::make( 'complex', 'crb_slider', __( 'Features' ) )
+        Field::make( 'complex', 'mos-pricing-features', __( 'Features' ) )
             ->add_fields( array(
-                Field::make( 'text', 'mos-pricing-feature', __( 'Feature' ) ),
+                Field::make( 'text', 'item', __( 'Feature' ) ),
             )),
         Field::make( 'text', 'mos-pricing-btn-title', __( 'Button' ) ),
         Field::make( 'text', 'mos-pricing-btn-url', __( 'URL' ) ),
-        Field::make( 'select', 'mos-member-alignment', __( 'Content Alignment' ) )
+        Field::make( 'select', 'mos-pricing-alignment', __( 'Content Alignment' ) )
         ->set_options( array(
             'left' => 'Left',
             'right' => 'Right',
@@ -165,7 +165,7 @@ function crb_attach_theme_options() {
     ->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
         ?>
         <div class="mos-pricing-wrapper <?php echo $attributes['className'] ?>">
-            <div class="mos-pricing text-<?php echo esc_html( $fields['mos-member-alignment'] ) ?>">            
+            <div class="mos-pricing text-<?php echo esc_html( $fields['mos-pricing-alignment'] ) ?>">            
                 <div class="title-part">
                     <h3><?php echo esc_html( $fields['mos-pricing-title'] ); ?></h3>
                 </div>
