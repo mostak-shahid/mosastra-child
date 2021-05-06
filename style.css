@@ -162,6 +162,16 @@ body.archive .ast-author-box img.avatar{margin:0;border-radius:0}
 @media (prefers-reduced-motion:reduce){
 	.progress-bar-animated{-webkit-animation:none;animation:none}
 }
+.mos-image-block .text-part>h4,.mos-image-block .text-part>.desc{
+    margin-bottom: 0;
+    margin-top: 10px;
+}
+.mos-image-block.text-center .wp-block-buttons {
+    justify-content: center;
+}
+.mos-image-block.text-right .wp-block-buttons {
+    justify-content: flex-end;
+}
 .get_in_touch{background-color:#2e96db;padding:25px 20px 25px 30px;background-repeat:no-repeat;background-position:right bottom;margin-bottom:1.6em}
 .get_in_touch, .get_in_touch a, .get_in_touch h3, .get_in_touch ul{color:#fff!important}
 .get_in_touch ul{margin:0}
