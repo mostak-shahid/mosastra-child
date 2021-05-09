@@ -44,6 +44,7 @@ function child_enqueue_styles() {
 }
 
 add_action( 'wp_enqueue_scripts', 'child_enqueue_styles', 15 );
+require_once 'aq_resizer.php';
 //require_once 'astra-custom.php';
 require_once 'hooks.php';
 require_once 'shortcodes.php';
