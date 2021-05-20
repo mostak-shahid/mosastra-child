@@ -5,9 +5,11 @@ jQuery(document).ready(function($){
 		} else {
 			$('.mos-sticky-header').removeClass('tiny');
 		}
-	});    
-    $('.jarallax').jarallax({
-        speed: 0.2
-    });
+	});   
     $('.counter').counterUp();
+    $(".beer-slider").each(function (index, el) {
+        $(el).BeerSlider({
+            start: $(el).data("start")
+        })
+    });
 });

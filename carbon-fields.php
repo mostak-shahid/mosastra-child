@@ -213,6 +213,38 @@ function crb_attach_theme_options() {
         </div>
         <?php
     });
+    Block::make( __( 'Mos Before After Block' ) )
+    ->add_fields( array(
+        Field::make( 'image', 'before_image', __( 'Before Image' ) ),
+        Field::make( 'image', 'after_image', __( 'After Image' ) ),
+        Field::make( 'text', 'before_text', __( 'Before Text' ) ),
+        Field::make( 'text', 'after_text', __( 'After Text' ) ),
+    ))
+    ->set_icon( 'format-gallery' )
+    ->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
+        ?>
+        <div class="mos-beforeafter-block-wrapper <?php echo $attributes['className'] ?>">
+            <div class="mos-beforeafter-block">
+                <?php if ($fields['before_image'] && $fields['after_image']) : ?>
+                <?php
+                $before_alt = get_post_meta($fields['before_image'], '_wp_attachment_image_alt', TRUE);
+                $before_text = ($fields['before_text'])?$fields['before_text']:'Before';
+                $after_alt = get_post_meta($fields['after_image'], '_wp_attachment_image_alt', TRUE);
+                $after_text = ($fields['after_text'])?$fields['after_text']:'After';                 
+                ?>
+                <div  class="beer-slider" data-beer-label="<?php echo $before_text ?>" data-start="50">
+                    <?php echo wp_get_attachment_image( $fields['before_image'], 'full', false, ['class'=>'before-image'] ); ?>
+                    <div class="beer-reveal" data-beer-label="<?php echo $after_text ?>">                        
+                        <?php echo wp_get_attachment_image( $fields['after_image'], 'full', false, ['class'=>'after-image'] ); ?>
+                    </div>
+                </div>
+                <?php else : ?>
+                <div class="text-center border rounded-3 p-10">Please add before and after images for this section</div>
+                <?php endif?>
+            </div>
+        </div>
+        <?php
+    });
     Block::make( __( 'Mos 3 Column CTA' ) )
     ->add_fields( array(
         Field::make( 'text', 'mos-3ccta-heading', __( 'Heading' ) ),        
