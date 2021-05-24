@@ -89,6 +89,23 @@ body.archive .ast-author-box .ast-author-bio{padding-left:15px}
 body.archive .ast-author-box img.avatar{margin:0;border-radius:0}
 .mos-post-block [class^="ast-post-format"]{display:-webkit-flex;display:-moz-flex;display:-ms-flex;display:-o-flex;display:flex;align-items:center;border:1px solid #f8f8f8;padding-bottom:0}
 .mos-post-block [class^="ast-post-format"] .post-thumb{margin-bottom:0}
+/*Woo Commerce*/
+.woocommerce ul.products li.product, .woocommerce-page ul.products li.product {
+    border: 1px solid #eaeaea;
+}
+.woocommerce ul.products li.product .astra-shop-summary-wrap, .woocommerce-page ul.products li.product .astra-shop-summary-wrap {
+    text-align: center;
+}
+.woocommerce ul.products li.product .star-rating, .woocommerce-page ul.products li.product .star-rating {
+    margin: 0 auto .5em auto;
+}
+.woocommerce ul.products li.product .button, .woocommerce-page ul.products li.product .button {
+    width: 100%;
+    margin-bottom: 0;
+}
+.woocommerce .added_to_cart.wc-forward {
+    display: none;
+}
 /*Related Post*/
  .single-post .related-post{margin-left:calc(-50vw + 50%);margin-right:calc(-50vw + 50%);max-width:100vw;width:100vw;padding-top:60px;padding-bottom:60px}
 .single-post .related-post .section-title{text-align:center;margin-bottom:40px}

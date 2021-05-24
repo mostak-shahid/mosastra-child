@@ -47,3 +47,4 @@ require_once 'aq_resizer.php';
 require_once 'hooks.php';
 require_once 'shortcodes.php';
 require_once 'carbon-fields.php';
+require_once 'woo-functions.php';

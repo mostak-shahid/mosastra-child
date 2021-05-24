@@ -26,7 +26,7 @@ function mos_author_details_func(){
 }
 add_action('astra_primary_content_bottom','mos_related_posts_func');
 function mos_related_posts_func(){
-    if(is_single()):
+    if(is_single() && get_post_type() == 'post'):
         $term_ids = [];
         $categories = get_the_category(get_the_ID());
         foreach($categories as $category){
