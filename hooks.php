@@ -17,7 +17,7 @@ function mos_author_details_func(){
     <div class="post-autor-details">
         <div class="img-part"><?php echo get_avatar(get_the_author_meta('ID'),120) ?></div>
         <div class="text-part">
-            <h4 class="author-name" itemprop="name"><a href="<?php echo get_the_author_meta('user_url') ?>" title="View all posts by <?php echo get_the_author_meta('display_name') ?>" rel="author" class="url fn n" itemprop="url"><?php echo get_the_author_meta('display_name') ?></a></h4>
+            <h4 class="author-name" itemprop="name"><a href="<?php echo get_author_posts_url(get_the_author_meta('ID')) ?>" title="View all posts by <?php echo get_the_author() ?>" rel="author" class="url fn n" itemprop="url"><?php echo get_the_author() ?></a></h4>
             <div class="author-description" itemprop="name"><?php echo get_the_author_meta('description') ?></div>
         </div>
     </div>
@@ -80,43 +80,32 @@ if ( !is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
         return false;
     }
 }
-add_action('astra_content_top','mos_custom_header');
-function mos_custom_header(){
-    if (is_home()) :
-        $page_for_posts = get_option( 'page_for_posts' );
-    ?>       
-        <header class="entry-header ast-no-thumbnail ast-no-meta"><h1 class="entry-title" itemprop="headline"><?php echo get_the_title($page_for_posts) ?></h1></header>    
-    <?php
-    elseif (is_shop()) :
-        $page_for_products = get_option( 'woocommerce_shop_page_id' );
-    ?>       
-        <header class="entry-header ast-no-thumbnail ast-no-meta"><h1 class="entry-title" itemprop="headline"><?php echo get_the_title($page_for_products) ?></h1></header>    
-    <?php
-    elseif ( is_single() && 'product' == get_post_type() ) :
-    ?>       
-        <header class="entry-header ast-no-thumbnail ast-no-meta"><h1 class="entry-title" itemprop="headline"><?php echo get_the_title(get_the_ID()) ?></h1></header>    
-    <?php
-    endif;
-}
 
-add_action('astra_content_top', 'custom_page_title');
+add_action('astra_header_after', 'custom_page_title');
 function custom_page_title () {
-    if (!is_home() && !is_page() && !is_single()) : 
+    $site_post_title = get_post_meta(get_the_ID(), 'site-post-title', true); 
+    if($site_post_title != 'disabled'): 
     ?>
-        <header class="entry-header ast-no-thumbnail ast-no-meta">
-            <h1 class="entry-title" itemprop="headline">
-                <?php if (is_author()) : ?>
-                Author Archive: <?php echo get_the_author()?>
+        <header id="mos-page-header" class="page-header">
+            <h1 class="page-title" itemprop="headline">
+                <?php if (is_home()) : ?>
+                    <?php echo get_the_title(get_option( 'page_for_posts' )) ?>
+                <?php elseif (is_shop()) : ?>
+                    <?php echo get_the_title(get_option( 'woocommerce_shop_page_id' )) ?>
+                <?php elseif (is_single() || is_page()) : ?>
+                    <?php echo get_the_title(get_the_ID()) ?>
+                <?php elseif (is_author()) : ?>
+                    Author Archive: <?php echo get_the_author()?>
                 <?php elseif (is_category()) : ?>
-                Category Archive: <?php single_cat_title(); ?>
+                    Category Archive: <?php single_cat_title(); ?>
                 <?php elseif (is_tag()) : ?>
-                Tag Archive: <?php single_tag_title(); ?>
+                    Tag Archive: <?php single_tag_title(); ?>
                 <?php elseif (is_search()) : ?>
-                Search Result for <?php echo get_search_query(); ?>
+                    Search Result for <?php echo get_search_query(); ?>
                 <?php elseif (is_404()) : ?>
-                404 Page
+                    404 Page
                 <?php else : ?>
-                Archive Page
+                    Archive Page
                 <?php endif;?>
             </h1>
         </header>
