@@ -25,8 +25,8 @@ function shortcodes_page(){
 			<li>[feature-image wrapper_element='div' wrapper_atts='' height='' width=''] <span class="sdetagils">displays feature image</span></li>		
 			<li>[font-awesome class="" container-class=""] <span class="sdetagils">displays feature image</span></li>		
 			<li>[blog-teaser class="" gap="NULL/gap-sm/gap-md/gap-lg" posts="3"] <span class="sdetagils">displays feature image</span></li>		
-			<li>[mos-embed url="" ratio="32by9/21by9/16by9/4by3/1by1"] <span class="sdetagils">displays Embeds</span></li>		
-			<li>[mos-popup url="" icon-class="" text="" background-image=""] <span class="sdetagils">displays Popup</span></li>		
+			<li>[mos-embed class="" url="" ratio="32by9/21by9/16by9/4by3/1by1"] <span class="sdetagils">displays Embeds</span></li>		
+			<li>[mos-popup class="" url="" icon-class="" text="" background-image=""] <span class="sdetagils">displays Popup</span></li>		
 			<li>[social-menu class="" links=""] <span class="sdetagils">displays Social Icons</span></li>		
 			<li>[mos-progress title="" amount="" height="" class=""] <span class="sdetagils">displays progress bar</span></li>	
 		</ol>
@@ -196,11 +196,10 @@ function social_menu_func( $atts = array(), $content = '' ) {
         foreach($slices as $url){
             $html .='<li>';
             $url = trim($url);
-            if (preg_match('/facebook/i', $url)) $html .= '<a href="'.$url.'" target="_blank"><i class="fa fa-facebook"></i></a>';
-            elseif (preg_match('/skype/i', $url))$html .= '<a href="'.$url.'"><i class="fa fa-skype"></i></a>';
-            elseif (preg_match('/twitter/i', $url))$html .= '<a href="'.$url.'" target="_blank"><i class="fa fa-twitter"></i></a>';
-            elseif (preg_match('/linkedin/i', $url))$html .= '<a href="'.$url.'" target="_blank"><i class="fa fa-linkedin"></i></a>';
-            elseif (preg_match('/google/i', $url))$html .= '<a href="'.$url.'" target="_blank"><i class="fa fa-google-plus"></i></a>';
+            $pattern = '/http(s)?:\/\/(www.)?(api.)?/i';
+            $removeStr = preg_replace($pattern, '', $url);
+            $arr = explode('.',$removeStr);            
+            $html .= '<a href="'.$url.'" target="_blank"><i class="fa fa-'.$arr[0].'"></i></a>';
             $html .='</li>';
         }
         $html .='</ul>';
@@ -214,9 +213,10 @@ function mos_embed_func($atts = array(), $content = '') {
 	$atts = shortcode_atts( array(
         'url' => '',
 		'ratio' => '21by9',
+		'class' => '',
 	), $atts, 'mos-embed' );
     ob_start(); ?>
-        <div class="embed-responsive embed-responsive-<?php echo $atts['ratio'] ?>">
+        <div class="embed-responsive embed-responsive-<?php echo $atts['ratio'] ?> <?php echo $atts['class'] ?>">
             <iframe class="embed-responsive-item" src="<?php echo $atts['url'] ?>"></iframe>
         </div>
     <?php $html = ob_get_clean();
@@ -226,13 +226,14 @@ add_shortcode( 'mos-embed', 'mos_embed_func' );
 
 function mos_popup_func($atts = array(), $content = '') {
 	$atts = shortcode_atts( array(
+        'class' => '',
         'url' => '',
         'icon-class' => 'fa-play',
         'text' => '',
         'background-image' => '',
 	), $atts, 'mos-popup' );
     ob_start(); ?>
-        <div class="popup-btn-wrapper" <?php if ($atts['background-image']) : ?>style="background-image:url(<?php echo $atts['background-image'] ?>)"<?php endif ?>>
+        <div class="popup-btn-wrapper <?php echo $atts['class'] ?>" <?php if ($atts['background-image']) : ?>style="background-image:url(<?php echo $atts['background-image'] ?>)"<?php endif ?>>
             <a data-fancybox="gallery" href="<?php echo $atts['url'] ?>">
                 <?php if ($atts['icon-class']) : ?>
                     <span class="icon"><i class="<?php echo $atts['icon-class'] ?>"></i></span>
