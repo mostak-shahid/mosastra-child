@@ -26,7 +26,7 @@ function shortcodes_page(){
 			<li>[font-awesome class="" container-class=""] <span class="sdetagils">displays feature image</span></li>		
 			<li>[blog-teaser class="" gap="NULL/gap-sm/gap-md/gap-lg" posts="3"] <span class="sdetagils">displays feature image</span></li>		
 			<li>[mos-embed url="" ratio="32by9/21by9/16by9/4by3/1by1"] <span class="sdetagils">displays Embeds</span></li>		
-			<li>[mos-popup url="" icon-class="" background-image=""] <span class="sdetagils">displays Popup</span></li>		
+			<li>[mos-popup url="" icon-class="" text="" background-image=""] <span class="sdetagils">displays Popup</span></li>		
 			<li>[social-menu class="" links=""] <span class="sdetagils">displays Social Icons</span></li>		
 			<li>[mos-progress title="" amount="" height="" class=""] <span class="sdetagils">displays progress bar</span></li>	
 		</ol>
@@ -228,11 +228,19 @@ function mos_popup_func($atts = array(), $content = '') {
 	$atts = shortcode_atts( array(
         'url' => '',
         'icon-class' => 'fa-play',
+        'text' => '',
         'background-image' => '',
 	), $atts, 'mos-popup' );
     ob_start(); ?>
         <div class="popup-btn-wrapper" <?php if ($atts['background-image']) : ?>style="background-image:url(<?php echo $atts['background-image'] ?>)"<?php endif ?>>
-            <a data-fancybox="gallery" href="<?php echo $atts['url'] ?>"><i class="fa <?php echo $atts['icon-class'] ?>"></i></a>
+            <a data-fancybox="gallery" href="<?php echo $atts['url'] ?>">
+                <?php if ($atts['icon-class']) : ?>
+                    <span class="icon"><i class="<?php echo $atts['icon-class'] ?>"></i></span>
+                <?php endif ?>
+                <?php if ($atts['text']) : ?>
+                    <span class="text"><?php echo $atts['text'] ?></span>
+                <?php endif ?>
+            </a>
         </div>
     <?php $html = ob_get_clean();
     return $html;
