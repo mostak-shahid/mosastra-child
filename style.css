@@ -19,6 +19,7 @@ html{scroll-behavior:smooth}
 .text-center{text-align:center}
 .text-theme{color:var(--first-color)!important}
 .bg-theme{background-color:var(--first-color)!important}
+.smooth{-webkit-transition: all .3s ease-out;-moz-transition: all .3s ease-out;-o-transition: all .3s ease-out;transition: all .3s ease-out}
 .rounded,.rounded-0,.rounded-1,.rounded-2,.rounded-3,.rounded-circle,.rounded-pill{overflow:hidden}
 .rounded{border-radius:0.25rem !important}
 .rounded-0{border-radius:0 !important}
@@ -74,6 +75,10 @@ html{scroll-behavior:smooth}
 .d-flex{display:-webkit-flex;display:-moz-flex;display:-ms-flex;display:-o-flex;display:flex}
 .d-inline-block{display: inline-block}
 .d-inline{display: inline}
+.overflow-auto{overflow:auto!important}
+.overflow-hidden{overflow:hidden!important}
+.overflow-visible{overflow:visible!important}
+.overflow-scroll{overflow:scroll!important}
 .mos-media-block {
     display: -webkit-flex;
     display: -moz-flex;
