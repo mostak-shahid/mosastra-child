@@ -85,6 +85,7 @@ html{scroll-behavior:smooth}
 .media-block-row .mos-media-block{flex-direction:row}
 .media-block-row-reverse .mos-media-block{flex-direction: row-reverse}
 .media-block-column-reverse .mos-media-block{flex-direction: column-reverse}
+.media-block-equal-height, .media-block-equal-height .mos-media-block{height:100%}
 .justify-content-start,.media-block-justify-content-start .mos-media-block{justify-content:flex-start!important}
 .justify-content-end,.media-block-justify-content-end .mos-media-block{justify-content:flex-end!important}
 .justify-content-center,.media-block-justify-content-center .mos-media-block{justify-content:center!important}
