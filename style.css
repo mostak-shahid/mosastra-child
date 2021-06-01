@@ -21,7 +21,7 @@ html{scroll-behavior:smooth}
 .text-theme{color:var(--first-color)!important}
 .bg-theme{background-color:var(--first-color)!important}
 .smooth{-webkit-transition: all .3s ease-out;-moz-transition: all .3s ease-out;-o-transition: all .3s ease-out;transition: all .3s ease-out}
-.rounded,.rounded-0,.rounded-1,.rounded-2,.rounded-3,.rounded-circle,.rounded-pill{overflow:hidden}
+.rounded,.rounded-0,.rounded-1,.rounded-2,.rounded-3,.rounded-4,.rounded-5,.rounded-circle,.rounded-pill{overflow:hidden}
 .rounded{border-radius:0.25rem !important}
 .rounded-0{border-radius:0 !important}
 .rounded-1{border-radius:0.2rem !important}
