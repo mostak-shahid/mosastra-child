@@ -326,6 +326,99 @@ function crb_attach_theme_options() {
             </div>
         </div>
         <?php
+    }); Block::make( __( 'Mos Carousel Block' ) )
+    ->add_fields( array(
+        Field::make( 'select', 'image-carousel-grid', __( 'Large Device Grid' ) )
+        ->set_options( array(
+            '1' => 'Single Column',
+            '2' => 'Two Column',
+            '3' => 'Three Column',
+            '4' => 'Four Column',
+            '5' => 'Five Column',
+        )),
+        Field::make( 'select', 'image-carousel-grid-md', __( 'Medium Device Grid' ) )
+        ->set_options( array(
+            '1' => 'Single Column',
+            '2' => 'Two Column',
+            '3' => 'Three Column',
+            '4' => 'Four Column',
+            '5' => 'Five Column',
+        )),
+        Field::make( 'select', 'image-carousel-grid-sm', __( 'Small Device Grid' ) )
+        ->set_options( array(
+            '1' => 'Single Column',
+            '2' => 'Two Column',
+            '3' => 'Three Column',
+            '4' => 'Four Column',
+            '5' => 'Five Column',
+        )),
+        Field::make( 'select', 'image-carousel-autoplay', __( 'Autoplay' ) )
+        ->set_options( array(
+            'true' => 'Enable',
+            'false' => 'Disable'
+        )),
+        Field::make( 'text', 'image-carousel-autoplay-speed', __( 'Autoplay Speed' ) )
+            ->set_attribute( 'placeholder', '2000' ),
+        Field::make( 'complex', 'image-carousel-slider', __( 'Services' ) )
+            ->add_fields( array(
+                Field::make( 'text', 'title', __( 'Title' ) ),
+                Field::make( 'rich_text', 'content', __( 'Content' ) ),
+                Field::make( 'image', 'media', __( 'Image' ) ),
+                Field::make( 'text', 'btn-text', __( 'Button Text' ) ),
+                Field::make( 'text', 'btn-url', __( 'Button URL' ) ),                
+                Field::make( 'select', 'alignment', __( 'Content Alignment' ) )
+                ->set_options( array(
+                    'left' => 'Left',
+                    'right' => 'Right',
+                    'center' => 'Center',
+                )),
+                
+            )),
+        
+    ))
+    ->set_icon( 'format-gallery' )
+    ->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
+        ?>
+        <div class="mos-image-carousel-block-wrapper <?php echo (@$attributes['className'])?$attributes['className']:'' ?>">
+            <?php //var_dump($fields['image-carousel-slider']);?>
+            <?php if (sizeof($fields['image-carousel-slider'])) : ?>
+            <?php
+            $slidesToScroll = ($fields['image-carousel-grid'])?$fields['image-carousel-grid']:1;
+            $slidesToScroll_782 = ($fields['image-carousel-grid-md'])?$fields['image-carousel-grid-md']:1;
+            $slidesToScroll_600 = ($fields['image-carousel-grid-sm'])?$fields['image-carousel-grid-sm']:1;
+        
+            $autoplay = ($fields['image-carousel-autoplay'])?$fields['image-carousel-autoplay']:true;
+            $autoplaySpeed = ($fields['image-carousel-autoplay-speed'])?$fields['image-carousel-autoplay-speed']:2000;
+            $cls = 'slick-slider';
+            $data_slick = '{"slidesToShow": '.$slidesToScroll.',"slidesToScroll": 1,"autoplay": '.$autoplay.',"autoplaySpeed": '.$autoplaySpeed.',"dots": false,"arrows":true,"responsive": [{"breakpoint": 782,"settings": {"slidesToShow": '.$slidesToScroll_782.',"slidesToScroll": 1}},{"breakpoint": 600,"settings": {"arrows": true,"dots": false,"slidesToShow": '.$slidesToScroll_600.',"slidesToScroll": 1}}]}';
+            
+            ?>
+            <div class="mos-image-carousel-block <?php echo $cls ?>" data-slick='<?php echo $data_slick ?>'>
+                <?php foreach($fields['image-carousel-slider'] as $slide) : ?>
+                    <div class="item position-relative" id="item-<?php echo $slide['_id']?>" style="background-image: url(<?php echo wp_get_attachment_url($slide['media']) ?>)">
+                        <?php //if ($slide['media']) : ?>
+                            <?php //echo wp_get_attachment_image($slide['media'],'full',false,array('class'=>'slick-item-img'))?>
+                        <?php //endif?>
+                        <div class="text-wrapper text-<?php echo esc_html( $slide['alignment'] ) ?>">
+                            <?php if ($slide['title']) :?>
+                                <h2 class="mos-image-carousel-title"><?php echo do_shortcode($slide['title']); ?></h2>
+                            <?php endif?>
+                            <?php if ($slide['content']) :?>
+                                <div class="mos-image-carousel-content"><?php echo do_shortcode($slide['content']); ?></div>
+                            <?php endif?>
+                            <?php if ($slide['btn-text']) :?>
+                                <div class="wp-block-buttons"><div class="wp-block-button"><span class="wp-block-button__link"><?php echo do_shortcode($slide['btn-text']); ?></span></div></div>
+                            <?php endif?>                        
+                        </div>
+                        <?php if ($slide['btn-url']) :?>
+                            <a href="<?php echo esc_url(do_shortcode($slide['btn-url'])); ?>" class="hidden-link"></a>
+                        <?php endif?>
+                    </div>
+                <?php endforeach;?>
+            </div>
+            <?php endif;?>
+        </div>
+        <?php
     });
     Block::make( __( 'Mos 3 Column CTA' ) )
     ->add_fields( array(

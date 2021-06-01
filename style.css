@@ -14,6 +14,7 @@ Template:astra
   --second-color:#3480e0;
 }
 html{scroll-behavior:smooth}
+.hidden-link{position: absolute;left: 0;top: 0;width: 100%;height: 100%;opacity: 0}
 .text-left{text-align:left}
 .text-right{text-align:right}
 .text-center{text-align:center}
@@ -125,6 +126,11 @@ body.archive .ast-author-box .ast-author-bio{padding-left:15px}
 body.archive .ast-author-box img.avatar{margin:0;border-radius:0}
 .mos-post-block [class^="ast-post-format"]{display:-webkit-flex;display:-moz-flex;display:-ms-flex;display:-o-flex;display:flex;align-items:center;border:1px solid #f8f8f8;padding-bottom:0}
 .mos-post-block [class^="ast-post-format"] .post-thumb{margin-bottom:0}
+/*Gutenberg Elements*/
+.mos-image-carousel-block-wrapper .item {background-position: center center; background-size: cover;background-repeat: no-repeat}
+.mos-image-carousel-block-wrapper .text-right .wp-block-buttons {justify-content: flex-end}
+.mos-image-carousel-block-wrapper .text-center .wp-block-buttons {justify-content: center}
+/*Gutenberg Elements*/
 /*Woo Commerce*/
 .woocommerce ul.products li.product, .woocommerce-page ul.products li.product {
     border: 1px solid #eaeaea;

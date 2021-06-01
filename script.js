@@ -12,4 +12,5 @@ jQuery(document).ready(function($){
             start: $(el).data("start")
         })
     });
+    $(".slick-slider").slick();
 });
