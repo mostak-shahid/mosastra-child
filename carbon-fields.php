@@ -55,7 +55,7 @@ function crb_attach_theme_options() {
     ->set_icon( 'id-alt' )
     ->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
         ?>
-        <div class="mos-media-block-wrapper <?php echo $attributes['className'] ?>">
+        <div class="mos-media-block-wrapper <?php echo (@$attributes['className'])?$attributes['className']:'' ?>">
             <div class="mos-media-block text-<?php echo esc_html( $fields['mos-media-alignment'] ) ?>">    
                 <?php if (sizeof($fields['mos-media-block-one'])) : ?>
                 <div class="part-one">  
