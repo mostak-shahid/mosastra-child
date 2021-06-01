@@ -65,7 +65,7 @@ function crb_attach_theme_options() {
                         <?php elseif ($part_1 == 'icon' && $fields['mos-media-icon-class']) : ?>
                             <span class="icon-part"><i class="<?php echo esc_html( $fields['mos-media-icon-class'] ); ?>"></i></span>
                         <?php elseif ($part_1 == 'svg' && $fields['mos-media-svg']) : ?>
-                            <span class="svg-part"><?php echo esc_html( $fields['mos-media-svg'] ); ?></span>
+                            <span class="svg-part"><?php echo $fields['mos-media-svg']; ?></span>
                         <?php elseif ($part_1 == 'heading' && $fields['mos-media-heading']) : ?>
                             <h4><?php echo esc_html( $fields['mos-media-heading'] ); ?></h4>
                         <?php elseif ($part_1 == 'content' && $fields['mos-media-content']) :?>
@@ -84,7 +84,7 @@ function crb_attach_theme_options() {
                         <?php elseif ($part_2 == 'icon' && $fields['mos-media-icon-class']) : ?>
                             <span class="icon-part"><i class="<?php echo esc_html( $fields['mos-media-icon-class'] ); ?>"></i></span>
                         <?php elseif ($part_2 == 'svg' && $fields['mos-media-svg']) : ?>
-                            <span class="svg-part"><?php echo esc_html( $fields['mos-media-svg'] ); ?></span>
+                            <span class="svg-part"><?php echo $fields['mos-media-svg']; ?></span>
                         <?php elseif ($part_2 == 'heading' && $fields['mos-media-heading']) : ?>
                             <h4><?php echo esc_html( $fields['mos-media-heading'] ); ?></h4>
                         <?php elseif ($part_2 == 'content' && $fields['mos-media-content']) :?>
