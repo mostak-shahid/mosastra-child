@@ -116,7 +116,7 @@ function crb_attach_theme_options() {
     ->set_icon( 'id-alt' )
     ->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
         ?>
-        <div class="mos-image-block-wrapper <?php echo $attributes['className'] ?>">
+        <div class="mos-image-block-wrapper  <?php echo (@$attributes['className'])?$attributes['className']:'' ?>">
             <div class="mos-image-block text-<?php echo esc_html( $fields['mos-image-alignment'] ) ?>">                
                 <?php if ($fields['mos-image-media']) : ?>
                     <div class="img-part"><?php echo wp_get_attachment_image( $fields['mos-image-media'], 'full' ); ?></div>
@@ -155,7 +155,7 @@ function crb_attach_theme_options() {
     ->set_icon( 'editor-customchar' )
     ->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
         ?>
-        <div class="mos-icon-block-wrapper <?php echo $attributes['className'] ?>">
+        <div class="mos-icon-block-wrapper  <?php echo (@$attributes['className'])?$attributes['className']:'' ?>">
             <div class="mos-icon-block text-<?php echo esc_html( $fields['mos-icon-alignment'] ) ?>">
                 <?php if ($fields['mos-icon-class']) : ?>
                 <div class="icon-part"><i class="fa <?php echo esc_html( $fields['mos-icon-class'] ); ?>" style="--color:<?php echo esc_html( $fields['mos-icon-color'] ); ?>"></i></div>
@@ -192,7 +192,7 @@ function crb_attach_theme_options() {
     ->set_icon( 'editor-customchar' )
     ->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
         ?>
-        <div class="mos-svg-block-wrapper <?php echo $attributes['className'] ?>">
+        <div class="mos-svg-block-wrapper  <?php echo (@$attributes['className'])?$attributes['className']:'' ?>">
             <div class="mos-svg-block text-<?php echo esc_html( $fields['mos-svg-alignment'] ) ?>">
                 <?php if ($fields['mos-svg-class']) : ?>
                 <div class="svg-part"><?php echo $fields['mos-svg-class']; ?></div>
@@ -230,7 +230,7 @@ function crb_attach_theme_options() {
     ->set_icon( 'clock' )
     ->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
         ?>
-        <div class="mos-counter-block-wrapper <?php echo $attributes['className'] ?>">
+        <div class="mos-counter-block-wrapper  <?php echo (@$attributes['className'])?$attributes['className']:'' ?>">
             <div class="mos-counter-block text-<?php echo esc_html( $fields['mos-counter-alignment'] ) ?>">
                 <h2 style="color: <?php echo esc_html( $fields['mos-counter-color'] ); ?>"><span class="prefix"><?php echo esc_html( $fields['mos-counter-prefix'] ); ?></span><span class='numscroller counter' data-min='1' data-counterup-time="1500"><?php echo esc_html( $fields['mos-counter-number'] ); ?></span><span class="suffix"><?php echo esc_html( $fields['mos-counter-suffix'] ); ?></span></h2>
                 <div class="mb-0" style="color: <?php echo esc_html( $fields['mos-counter-text-color'] ); ?>"><?php echo esc_html( $fields['mos-counter-content'] ); ?></div>
@@ -263,7 +263,7 @@ function crb_attach_theme_options() {
     ->set_icon( 'list-view' )
     ->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
         ?>
-        <div class="mos-pricing-wrapper <?php echo $attributes['className'] ?>">
+        <div class="mos-pricing-wrapper  <?php echo (@$attributes['className'])?$attributes['className']:'' ?>">
             <div class="mos-pricing text-<?php echo esc_html( $fields['mos-pricing-alignment'] ) ?>">            
                 <div class="title-part">
                     <h3><?php echo esc_html( $fields['mos-pricing-title'] ); ?></h3>
@@ -305,7 +305,7 @@ function crb_attach_theme_options() {
     ->set_icon( 'format-gallery' )
     ->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
         ?>
-        <div class="mos-beforeafter-block-wrapper <?php echo $attributes['className'] ?>">
+        <div class="mos-beforeafter-block-wrapper  <?php echo (@$attributes['className'])?$attributes['className']:'' ?>">
             <div class="mos-beforeafter-block">
                 <?php if ($fields['before_image'] && $fields['after_image']) : ?>
                 <?php
@@ -432,7 +432,7 @@ function crb_attach_theme_options() {
     ->set_icon( 'phone' )
     ->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
         ?>
-        <div class="mos-3ccta-wrapper <?php echo $attributes['className'] ?>" style="<?php if ($fields['mos-3ccta-bgcolor']) echo 'background-color:'.esc_html($fields['mos-3ccta-bgcolor']).';' ?><?php if ($fields['mos-3ccta-bgimage']) echo 'background-image:url('.wp_get_attachment_url($fields['mos-3ccta-bgimage']).');' ?>">
+        <div class="mos-3ccta-wrapper  <?php echo (@$attributes['className'])?$attributes['className']:'' ?>" style="<?php if ($fields['mos-3ccta-bgcolor']) echo 'background-color:'.esc_html($fields['mos-3ccta-bgcolor']).';' ?><?php if ($fields['mos-3ccta-bgimage']) echo 'background-image:url('.wp_get_attachment_url($fields['mos-3ccta-bgimage']).');' ?>">
             <div class="mos-3ccta">
                 <div class="call-left">
                     <h3><?php echo esc_html( $fields['mos-3ccta-heading'] ); ?></h3>
