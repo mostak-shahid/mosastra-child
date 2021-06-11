@@ -238,6 +238,152 @@ function crb_attach_theme_options() {
         </div>
         <?php
     });
+    
+        Block::make( __( 'Mos Post Block' ) )
+    ->add_fields( array(
+        Field::make( 'text', 'mos-post-posts', __( 'No of Post' ) ),
+        Field::make( 'text', 'mos-post-count', __( 'Excerpt Count' ) ),
+        Field::make( 'text', 'mos-post-btn-text', __( 'Read More Text' ) ),
+        
+        Field::make( 'checkbox', 'mos-post-feature', 'Show Featured Image' ),
+        Field::make( 'checkbox', 'mos-post-title', 'Show Title' ),
+        Field::make( 'checkbox', 'mos-post-meta', 'Show Blog Meta' ),
+        Field::make( 'checkbox', 'mos-post-content', 'Show Content' ),
+        Field::make( 'checkbox', 'mos-post-btn', 'Show Read More' ),        
+        
+        Field::make( 'multiselect', 'mos-media-block-two', __( 'Blog Meta' ) )
+            ->set_options( array(
+                'comments' => 'Comments',
+                'category' => 'Category',
+                'author' => 'Author',
+                'date' => 'Publish Date',
+                'tag' => 'Tag',
+                'read-time' => 'Read Time',
+            )),
+        
+        Field::make( 'select', 'mos-post-layout', __( 'Layout' ) )
+            ->set_options( array(
+                'layout-1' => 'Layout One',
+                'layout-2' => 'Layout Two',
+            )),        
+        Field::make( 'select', 'mos-post-alignment', __( 'Content Alignment' ) )
+            ->set_options( array(
+                'left' => 'Left',
+                'right' => 'Right',
+                'center' => 'Center',
+            ))
+    ))
+    ->set_icon( 'admin-post' )
+    ->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
+        ?>
+        <div class="mos-post-block-wrapper <?php echo (@$attributes['className'])?$attributes['className']:'' ?> <?php echo (@$fields['mos-post-layout'])?$fields['mos-post-layout']:'layout-1' ?>">
+            <div class="mos-post-block text-<?php echo esc_html( $fields['mos-post-alignment'] ) ?>">
+                <div class="mos-post-grid gap-md">
+                <?php if (@$fields['mos-post-layout'] == 'layout-2') : 
+                    $args = array(
+                        'post_type' => 'post',
+                        'posts_per_page' => 1,                    
+                    );
+                    $query = new WP_Query( $args );
+                    if ($query->have_posts()) : ?>
+                        <div class="mos-post-grid-block mos-post-grid-six">
+                        <?php while ($query->have_posts()) : $query->the_post(); ?>
+                            <div id="post-<?php the_ID(); ?>" <?php post_class( 'position-relative' ); ?>>
+                                <?php if (@$fields['mos-post-feature'] && has_post_thumbnail()) : ?>
+                                    <?php the_post_thumbnail( $size = 'full', array('class'=>'post-featured-image') ) ?>
+                                <?php endif;?>
+                                <?php if (@$fields['mos-post-title']) : ?>
+                                    <h4 class="post-title"><?php echo get_the_title()?></h4>
+                                <?php endif;?>
+                                <?php if (@$fields['mos-post-meta'] && sizeof(@$fields['mos-media-block-two'])) : ?>
+                                    <div class="post-meta">
+                                    Metas
+                                    </div>
+                                <?php endif;?>
+                                <?php if (@$fields['mos-post-content']) : ?>
+                                    <div class="post-desc"><?php echo wp_trim_words( get_the_content(), (@$fields['mos-post-count'])?$fields['mos-post-count']:15, '...' ); ?></div>
+                                <?php endif;?>
+                                <?php if (@$fields['mos-post-btn']) : ?>
+                                    <div class="wp-block-buttons"><div class="wp-block-button mb-0"><span class="wp-block-button__link"><?php echo (@$fields['mos-post-btn-text'])?$fields['mos-post-btn-text']:'Read More'; ?></span></div></div>
+                                <?php endif;?>
+                                <a href="<?php echo get_the_permalink() ?>" class="hidden-link">Read More</a>
+                            </div>
+                        <?php endwhile?>
+                        </div>
+                    <?php endif; ?>
+                    <?php wp_reset_postdata(); ?>
+                    <?php $args = array(
+                        'post_type' => 'post',
+                        'posts_per_page' => (@$fields['mos-post-posts'] && $fields['mos-post-posts'] > 2)?($fields['mos-post-posts'] - 1):0, 
+                        'offset' => 1
+                    );
+                    $query = new WP_Query( $args );
+                    if ($query->have_posts()) : ?>
+                        <div class="mos-post-grid-block mos-post-grid-six">
+                        <?php while ($query->have_posts()) : $query->the_post(); ?>
+                            <div id="post-<?php the_ID(); ?>" <?php post_class( 'position-relative' ); ?>>
+                                <?php if (@$fields['mos-post-feature'] && has_post_thumbnail()) : ?>
+                                    <?php the_post_thumbnail( $size = 'full', array('class'=>'post-featured-image') ) ?>
+                                <?php endif;?>
+                                <?php if (@$fields['mos-post-title']) : ?>
+                                    <h4 class="post-title"><?php echo get_the_title()?></h4>
+                                <?php endif;?>
+                                <?php if (@$fields['mos-post-meta'] && sizeof(@$fields['mos-media-block-two'])) : ?>
+                                    <div class="post-meta">
+                                    Metas
+                                    </div>
+                                <?php endif;?>
+                                <?php if (@$fields['mos-post-content']) : ?>
+                                    <div class="post-desc"><?php echo wp_trim_words( get_the_content(), (@$fields['mos-post-count'])?$fields['mos-post-count']:15, '...' ); ?></div>
+                                <?php endif;?>
+                                <?php if (@$fields['mos-post-btn']) : ?>
+                                    <div class="wp-block-buttons"><div class="wp-block-button mb-0"><span class="wp-block-button__link"><?php echo (@$fields['mos-post-btn-text'])?$fields['mos-post-btn-text']:'Read More'; ?></span></div></div>
+                                <?php endif;?>
+                                <a href="<?php echo get_the_permalink() ?>" class="hidden-link">Read More</a>
+                            </div>
+                        <?php endwhile?>
+                        </div>
+                    <?php endif;?>
+                    <?php wp_reset_postdata(); ?>                   
+                <?php else :
+                    $args = array(
+                        'post_type' => 'post',
+                        'posts_per_page' => (@$fields['mos-post-posts'])?$fields['mos-post-posts']:-1,                    
+                    );
+                    $query = new WP_Query( $args );
+                    if ($query->have_posts()) : ?>
+                        
+                        <?php while ($query->have_posts()) : $query->the_post(); ?>
+                            <div id="post-<?php the_ID(); ?>" <?php post_class( 'mos-post-grid-block mos-post-grid-four position-relative' ); ?>>
+                                <?php if (@$fields['mos-post-feature'] && has_post_thumbnail()) : ?>
+                                    <?php the_post_thumbnail( $size = 'full', array('class'=>'post-featured-image') ) ?>
+                                <?php endif;?>
+                                <?php if (@$fields['mos-post-title']) : ?>
+                                    <h4 class="post-title"><?php echo get_the_title()?></h4>
+                                <?php endif;?>
+                                <?php if (@$fields['mos-post-meta'] && sizeof(@$fields['mos-media-block-two'])) : ?>
+                                    <div class="post-meta">
+                                    Metas
+                                    </div>
+                                <?php endif;?>
+                                <?php if (@$fields['mos-post-content']) : ?>
+                                    <div class="post-desc"><?php echo wp_trim_words( get_the_content(), (@$fields['mos-post-count'])?$fields['mos-post-count']:15, '...' ); ?></div>
+                                <?php endif;?>
+                                <?php if (@$fields['mos-post-btn']) : ?>
+                                    <div class="wp-block-buttons"><div class="wp-block-button mb-0"><span class="wp-block-button__link"><?php echo (@$fields['mos-post-btn-text'])?$fields['mos-post-btn-text']:'Read More'; ?></span></div></div>
+                                <?php endif;?>
+                                <a href="<?php echo get_the_permalink() ?>" class="hidden-link">Read More</a>
+                            </div>    
+                        <?php endwhile?>
+                    <?php endif; ?>
+                    <?php wp_reset_postdata();?>
+                <?php endif?>                
+                </div>
+            </div>
+        </div>
+        <?php
+    });
+    
     Block::make( __( 'Mos Pricing Block' ) )
     ->add_fields( array(
         Field::make( 'text', 'mos-pricing-title', __( 'Heading' ) ),
