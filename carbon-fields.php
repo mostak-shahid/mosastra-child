@@ -238,20 +238,23 @@ function crb_attach_theme_options() {
         </div>
         <?php
     });
-    
-        Block::make( __( 'Mos Post Block' ) )
+    Block::make( __( 'Mos Post Block' ) )
     ->add_fields( array(
         Field::make( 'text', 'mos-post-posts', __( 'No of Post' ) ),
         Field::make( 'text', 'mos-post-count', __( 'Excerpt Count' ) ),
         Field::make( 'text', 'mos-post-btn-text', __( 'Read More Text' ) ),
         
         Field::make( 'checkbox', 'mos-post-feature', 'Show Featured Image' ),
+        Field::make( 'text', 'mos-post-feature-large', __( 'Large Image Size' ) )
+        ->set_attribute( 'placeholder', '560x315' ),
+        Field::make( 'text', 'mos-post-feature-small', __( 'Small Image Size' ) )
+        ->set_attribute( 'placeholder', '100x100' ),
         Field::make( 'checkbox', 'mos-post-title', 'Show Title' ),
         Field::make( 'checkbox', 'mos-post-meta', 'Show Blog Meta' ),
         Field::make( 'checkbox', 'mos-post-content', 'Show Content' ),
         Field::make( 'checkbox', 'mos-post-btn', 'Show Read More' ),        
         
-        Field::make( 'multiselect', 'mos-media-block-two', __( 'Blog Meta' ) )
+        Field::make( 'multiselect', 'mos-post-metas', __( 'Blog Meta' ) )
             ->set_options( array(
                 'comments' => 'Comments',
                 'category' => 'Category',
@@ -290,18 +293,68 @@ function crb_attach_theme_options() {
                         <?php while ($query->have_posts()) : $query->the_post(); ?>
                             <div id="post-<?php the_ID(); ?>" <?php post_class( 'position-relative' ); ?>>
                                 <?php if (@$fields['mos-post-feature'] && has_post_thumbnail()) : ?>
-                                    <?php the_post_thumbnail( $size = 'full', array('class'=>'post-featured-image') ) ?>
+                                    <?php
+                                    $lsize = (@$fields['mos-post-feature-large'] && preg_match('/^\d+x\d+$/', $fields['mos-post-feature-large']))?$fields['mos-post-feature-large']:'530x315';
+                                    $slarr = explode('x',$lsize);
+                                    $width = intval($slarr[0]);
+                                    $height = intval($slarr[1]);
+                                    $attachment_id = get_post_thumbnail_id();
+                                    $rawurl = wp_get_attachment_url( $attachment_id );
+                                    $imgurl = aq_resize($rawurl,$width,$height, true);
+                                    $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', TRUE);
+                                    ?>
+                                    <img width="<?php echo $width ?>" height="<?php echo $height ?>" src="<?php echo $imgurl ?>" class="post-featured-image wp-post-image" alt="<?php echo $image_alt ?>" loading="lazy">
                                 <?php endif;?>
                                 <?php if (@$fields['mos-post-title']) : ?>
                                     <h4 class="post-title"><?php echo get_the_title()?></h4>
                                 <?php endif;?>
-                                <?php if (@$fields['mos-post-meta'] && sizeof(@$fields['mos-media-block-two'])) : ?>
+                                <?php if (@$fields['mos-post-meta'] && sizeof(@$fields['mos-post-metas'])) : ?>
                                     <div class="post-meta">
-                                    Metas
+                                    <?php foreach($fields['mos-post-metas'] as $meta) :?>
+                                        <?php if ($meta == 'comments') : ?>
+                                            <span class="meta-unit meta-comment"><?php comments_number('No Comments', '1 Comment', '% Comments');?></span>
+                                        <?php elseif ($meta == 'category') : ?>
+                                            <span class="meta-unit meta-category">
+                                            <?php 
+                                            $categories = get_the_category();
+                                            if ( ! empty( $categories ) ) {
+                                                $n = 0;
+                                                foreach($categories as $category) {
+                                                    //echo '<a href="' . esc_url( get_category_link( $category->term_id ) ) . '">' . esc_html( $category->name ) . '</a>';
+                                                    if (!$n) echo ', ';
+                                                    echo esc_html( $category->name );
+                                                    $n++;                                                    
+                                                }
+                                            }
+                                            ?>
+                                            </span>
+                                        <?php elseif ($meta == 'author') : ?>
+                                            <span class="meta-unit meta-author"><?php echo get_the_author()?></span>
+                                        <?php elseif ($meta == 'date') : ?>
+                                            <span class="meta-unit meta-date"><?php echo get_the_date()?></span>
+                                        <?php elseif ($meta == 'read-time') : ?>
+                                            <span class="meta-unit meta-tag">
+                                                <?php
+                                                $post_tags = get_the_tags(); 
+                                                if ( $post_tags ) {
+                                                    $n = 0;
+                                                    foreach( $post_tags as $tag ) {                                                    
+                                                        if (!$n) echo ', ';
+                                                        echo esc_html( $tag->name );
+                                                        $n++;
+                                                    }
+                                                }
+                                                
+                                                ?>
+                                            </span>
+                                        <?php elseif ($meta == 'read-time') : ?>
+                                            <span class="meta-unit meta-read-time"><?php echo mos_calculate_reading_time(get_the_ID())?> minute of reading</span>
+                                        <?php endif?>
+                                    <?php endforeach;?>
                                     </div>
                                 <?php endif;?>
                                 <?php if (@$fields['mos-post-content']) : ?>
-                                    <div class="post-desc"><?php echo wp_trim_words( get_the_content(), (@$fields['mos-post-count'])?$fields['mos-post-count']:15, '...' ); ?></div>
+                                    <div class="post-desc"><?php echo wp_trim_words( get_the_content(), (@$fields['mos-post-count'])?$fields['mos-post-count'] + 15:30, '...' ); ?></div>
                                 <?php endif;?>
                                 <?php if (@$fields['mos-post-btn']) : ?>
                                     <div class="wp-block-buttons"><div class="wp-block-button mb-0"><span class="wp-block-button__link"><?php echo (@$fields['mos-post-btn-text'])?$fields['mos-post-btn-text']:'Read More'; ?></span></div></div>
@@ -321,24 +374,78 @@ function crb_attach_theme_options() {
                     if ($query->have_posts()) : ?>
                         <div class="mos-post-grid-block mos-post-grid-six">
                         <?php while ($query->have_posts()) : $query->the_post(); ?>
-                            <div id="post-<?php the_ID(); ?>" <?php post_class( 'position-relative' ); ?>>
-                                <?php if (@$fields['mos-post-feature'] && has_post_thumbnail()) : ?>
-                                    <?php the_post_thumbnail( $size = 'full', array('class'=>'post-featured-image') ) ?>
-                                <?php endif;?>
-                                <?php if (@$fields['mos-post-title']) : ?>
-                                    <h4 class="post-title"><?php echo get_the_title()?></h4>
-                                <?php endif;?>
-                                <?php if (@$fields['mos-post-meta'] && sizeof(@$fields['mos-media-block-two'])) : ?>
+                            <div id="post-<?php the_ID(); ?>" <?php post_class( 'post-block-sm position-relative d-flex align-items-center' ); ?>>
+                                <div class="part-1">
+                                    <?php if (@$fields['mos-post-feature'] && has_post_thumbnail()) : ?>
+                                        <?php
+                                        $ssize = (@$fields['mos-post-feature-small'] && preg_match('/^\d+x\d+$/', $fields['mos-post-feature-small']))?$fields['mos-post-feature-small']:'100x100';
+                                        $ssarr = explode('x',$ssize);
+                                        $width = intval($ssarr[0]);
+                                        $height = intval($ssarr[1]);
+                                        $attachment_id = get_post_thumbnail_id();
+                                        $rawurl = wp_get_attachment_url( $attachment_id );
+                                        $imgurl = aq_resize($rawurl,$width,$height, true);
+                                        $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', TRUE);
+                                        ?>
+                                        <img width="<?php echo $width ?>" height="<?php echo $height ?>" src="<?php echo $imgurl ?>" class="post-featured-image wp-post-image" alt="<?php echo $image_alt ?>" loading="lazy">
+                                    <?php endif;?>                                    
+                                </div>
+                                <div class="part-2">
+                                    <?php if (@$fields['mos-post-title']) : ?>
+                                        <h4 class="post-title mb-0"><?php echo get_the_title()?></h4>
+                                    <?php endif;?>
+                                    <?php if (@$fields['mos-post-meta'] && sizeof(@$fields['mos-post-metas'])) : ?>
                                     <div class="post-meta">
-                                    Metas
+                                    <?php foreach($fields['mos-post-metas'] as $meta) :?>
+                                        <?php if ($meta == 'comments') : ?>
+                                            <span class="meta-unit meta-comment"><?php comments_number('No Comments', '1 Comment', '% Comments');?></span>
+                                        <?php elseif ($meta == 'category') : ?>
+                                            <span class="meta-unit meta-category">
+                                            <?php 
+                                            $categories = get_the_category();
+                                            if ( ! empty( $categories ) ) {
+                                                $n = 0;
+                                                foreach($categories as $category) {
+                                                    //echo '<a href="' . esc_url( get_category_link( $category->term_id ) ) . '">' . esc_html( $category->name ) . '</a>';
+                                                    if (!$n) echo ', ';
+                                                    echo esc_html( $category->name );
+                                                    $n++;                                                    
+                                                }
+                                            }
+                                            ?>
+                                            </span>
+                                        <?php elseif ($meta == 'author') : ?>
+                                            <span class="meta-unit meta-author"><?php echo get_the_author()?></span>
+                                        <?php elseif ($meta == 'date') : ?>
+                                            <span class="meta-unit meta-date"><?php echo get_the_date()?></span>
+                                        <?php elseif ($meta == 'read-time') : ?>
+                                            <span class="meta-unit meta-tag">
+                                                <?php
+                                                $post_tags = get_the_tags(); 
+                                                if ( $post_tags ) {
+                                                    $n = 0;
+                                                    foreach( $post_tags as $tag ) {                                                    
+                                                        if (!$n) echo ', ';
+                                                        echo esc_html( $tag->name );
+                                                        $n++;
+                                                    }
+                                                }
+                                                
+                                                ?>
+                                            </span>
+                                        <?php elseif ($meta == 'read-time') : ?>
+                                            <span class="meta-unit meta-read-time"><?php echo mos_calculate_reading_time(get_the_ID())?> minute of reading</span>
+                                        <?php endif?>
+                                    <?php endforeach;?>
                                     </div>
                                 <?php endif;?>
-                                <?php if (@$fields['mos-post-content']) : ?>
-                                    <div class="post-desc"><?php echo wp_trim_words( get_the_content(), (@$fields['mos-post-count'])?$fields['mos-post-count']:15, '...' ); ?></div>
-                                <?php endif;?>
-                                <?php if (@$fields['mos-post-btn']) : ?>
-                                    <div class="wp-block-buttons"><div class="wp-block-button mb-0"><span class="wp-block-button__link"><?php echo (@$fields['mos-post-btn-text'])?$fields['mos-post-btn-text']:'Read More'; ?></span></div></div>
-                                <?php endif;?>
+                                    <?php if (@$fields['mos-post-content']) : ?>
+                                        <div class="post-desc"><?php echo wp_trim_words( get_the_content(), (@$fields['mos-post-count'])?$fields['mos-post-count']:15, '...' ); ?></div>
+                                    <?php endif;?>
+                                    <?php if (@$fields['mos-post-btn']) : ?>
+                                        <div class="wp-block-buttons"><div class="wp-block-button mb-0"><span class="wp-block-button__link"><?php echo (@$fields['mos-post-btn-text'])?$fields['mos-post-btn-text']:'Read More'; ?></span></div></div>
+                                    <?php endif;?>
+                                </div>
                                 <a href="<?php echo get_the_permalink() ?>" class="hidden-link">Read More</a>
                             </div>
                         <?php endwhile?>
