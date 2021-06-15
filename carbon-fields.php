@@ -332,7 +332,7 @@ function crb_attach_theme_options() {
                                             <span class="meta-unit meta-author"><?php echo get_the_author()?></span>
                                         <?php elseif ($meta == 'date') : ?>
                                             <span class="meta-unit meta-date"><?php echo get_the_date()?></span>
-                                        <?php elseif ($meta == 'read-time') : ?>
+                                        <?php elseif ($meta == 'tag') : ?>
                                             <span class="meta-unit meta-tag">
                                                 <?php
                                                 $post_tags = get_the_tags(); 
@@ -418,7 +418,7 @@ function crb_attach_theme_options() {
                                             <span class="meta-unit meta-author"><?php echo get_the_author()?></span>
                                         <?php elseif ($meta == 'date') : ?>
                                             <span class="meta-unit meta-date"><?php echo get_the_date()?></span>
-                                        <?php elseif ($meta == 'read-time') : ?>
+                                        <?php elseif ($meta == 'tag') : ?>
                                             <span class="meta-unit meta-tag">
                                                 <?php
                                                 $post_tags = get_the_tags(); 
