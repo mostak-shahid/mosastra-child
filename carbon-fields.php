@@ -332,7 +332,10 @@ function crb_attach_theme_options() {
                                         <?php elseif ($meta == 'author') : ?>
                                             <span class="meta-unit meta-author">By <?php echo get_the_author()?></span>
                                         <?php elseif ($meta == 'date') : ?>
-                                            <span class="meta-unit meta-date"><?php echo get_the_date()?></span>
+                                            <span class="meta-unit meta-date">
+                                                <span class="published"><?php echo get_the_date()?></span>
+                                                <span class="updated"><?php echo get_the_modified_date()?></span>
+                                            </span>
                                         <?php elseif ($meta == 'tag') : ?>
                                             <span class="meta-unit meta-tag">
                                                 <?php
@@ -397,50 +400,53 @@ function crb_attach_theme_options() {
                                         <h4 class="post-title mb-0"><?php echo get_the_title()?></h4>
                                     <?php endif;?>
                                     <?php if (@$fields['mos-post-meta'] && sizeof(@$fields['mos-post-metas'])) : ?>
-                                    <div class="mos-post-meta post-meta">
-                                    <?php foreach($fields['mos-post-metas'] as $meta) :?>
-                                        <?php if ($meta == 'comments') : ?>
-                                            <span class="meta-unit meta-comment"><?php comments_number('No Comments', '1 Comment', '% Comments');?></span>
-                                        <?php elseif ($meta == 'category') : ?>
-                                            <span class="meta-unit meta-category">
-                                            <?php 
-                                            $categories = get_the_category();
-                                            if ( ! empty( $categories ) ) {
-                                                $n = 0;
-                                                foreach($categories as $category) {
-                                                    //echo '<a href="' . esc_url( get_category_link( $category->term_id ) ) . '">' . esc_html( $category->name ) . '</a>';
-                                                    if ($n) echo ', ';
-                                                    echo esc_html( $category->name );
-                                                    $n++;                                                    
-                                                }
-                                            }
-                                            ?>
-                                            </span>
-                                        <?php elseif ($meta == 'author') : ?>
-                                            <span class="meta-unit meta-author">By <?php echo get_the_author()?></span>
-                                        <?php elseif ($meta == 'date') : ?>
-                                            <span class="meta-unit meta-date"><?php echo get_the_date()?></span>
-                                        <?php elseif ($meta == 'tag') : ?>
-                                            <span class="meta-unit meta-tag">
-                                                <?php
-                                                $post_tags = get_the_tags(); 
-                                                if ( $post_tags ) {
+                                        <div class="mos-post-meta post-meta">
+                                        <?php foreach($fields['mos-post-metas'] as $meta) :?>
+                                            <?php if ($meta == 'comments') : ?>
+                                                <span class="meta-unit meta-comment"><?php comments_number('No Comments', '1 Comment', '% Comments');?></span>
+                                            <?php elseif ($meta == 'category') : ?>
+                                                <span class="meta-unit meta-category">
+                                                <?php 
+                                                $categories = get_the_category();
+                                                if ( ! empty( $categories ) ) {
                                                     $n = 0;
-                                                    foreach( $post_tags as $tag ) {                                                    
+                                                    foreach($categories as $category) {
+                                                        //echo '<a href="' . esc_url( get_category_link( $category->term_id ) ) . '">' . esc_html( $category->name ) . '</a>';
                                                         if ($n) echo ', ';
-                                                        echo esc_html( $tag->name );
-                                                        $n++;
+                                                        echo esc_html( $category->name );
+                                                        $n++;                                                    
                                                     }
                                                 }
-                                                
                                                 ?>
-                                            </span>
-                                        <?php elseif ($meta == 'read-time') : ?>
-                                            <span class="meta-unit meta-read-time"><?php echo mos_calculate_reading_time(get_the_ID())?></span>
-                                        <?php endif?>
-                                    <?php endforeach;?>
-                                    </div>
-                                <?php endif;?>
+                                                </span>
+                                            <?php elseif ($meta == 'author') : ?>
+                                                <span class="meta-unit meta-author">By <?php echo get_the_author()?></span>
+                                            <?php elseif ($meta == 'date') : ?>
+                                                <span class="meta-unit meta-date">                                            
+                                                    <span class="published"><?php echo get_the_date()?></span>
+                                                    <span class="updated"><?php echo get_the_modified_date()?></span>
+                                                </span>
+                                            <?php elseif ($meta == 'tag') : ?>
+                                                <span class="meta-unit meta-tag">
+                                                    <?php
+                                                    $post_tags = get_the_tags(); 
+                                                    if ( $post_tags ) {
+                                                        $n = 0;
+                                                        foreach( $post_tags as $tag ) {                                                    
+                                                            if ($n) echo ', ';
+                                                            echo esc_html( $tag->name );
+                                                            $n++;
+                                                        }
+                                                    }
+
+                                                    ?>
+                                                </span>
+                                            <?php elseif ($meta == 'read-time') : ?>
+                                                <span class="meta-unit meta-read-time"><?php echo mos_calculate_reading_time(get_the_ID())?></span>
+                                            <?php endif?>
+                                        <?php endforeach;?>
+                                        </div>
+                                    <?php endif;?>
                                     <?php if (@$fields['mos-post-content']) : ?>
                                         <div class="post-desc"><?php echo wp_trim_words( get_the_content(), (@$fields['mos-post-count'])?$fields['mos-post-count']:15, '...' ); ?></div>
                                     <?php endif;?>
@@ -470,9 +476,53 @@ function crb_attach_theme_options() {
                                 <?php if (@$fields['mos-post-title']) : ?>
                                     <h4 class="post-title"><?php echo get_the_title()?></h4>
                                 <?php endif;?>
-                                <?php if (@$fields['mos-post-meta'] && sizeof(@$fields['mos-media-block-two'])) : ?>
-                                    <div class="post-meta">
-                                    Metas
+                                
+                                <?php if (@$fields['mos-post-meta'] && sizeof(@$fields['mos-post-metas'])) : ?>
+                                    <div class="mos-post-meta post-meta">
+                                    <?php foreach($fields['mos-post-metas'] as $meta) :?>
+                                        <?php if ($meta == 'comments') : ?>
+                                            <span class="meta-unit meta-comment"><?php comments_number('No Comments', '1 Comment', '% Comments');?></span>
+                                        <?php elseif ($meta == 'category') : ?>
+                                            <span class="meta-unit meta-category">
+                                            <?php 
+                                            $categories = get_the_category();
+                                            if ( ! empty( $categories ) ) {
+                                                $n = 0;
+                                                foreach($categories as $category) {
+                                                    //echo '<a href="' . esc_url( get_category_link( $category->term_id ) ) . '">' . esc_html( $category->name ) . '</a>';
+                                                    if ($n) echo ', ';
+                                                    echo esc_html( $category->name );
+                                                    $n++;                                                    
+                                                }
+                                            }
+                                            ?>
+                                            </span>
+                                        <?php elseif ($meta == 'author') : ?>
+                                            <span class="meta-unit meta-author">By <?php echo get_the_author()?></span>
+                                        <?php elseif ($meta == 'date') : ?>
+                                            <span class="meta-unit meta-date">                                            
+                                                <span class="published"><?php echo get_the_date()?></span>
+                                                <span class="updated"><?php echo get_the_modified_date()?></span>
+                                            </span>
+                                        <?php elseif ($meta == 'tag') : ?>
+                                            <span class="meta-unit meta-tag">
+                                                <?php
+                                                $post_tags = get_the_tags(); 
+                                                if ( $post_tags ) {
+                                                    $n = 0;
+                                                    foreach( $post_tags as $tag ) {                                                    
+                                                        if ($n) echo ', ';
+                                                        echo esc_html( $tag->name );
+                                                        $n++;
+                                                    }
+                                                }
+
+                                                ?>
+                                            </span>
+                                        <?php elseif ($meta == 'read-time') : ?>
+                                            <span class="meta-unit meta-read-time"><?php echo mos_calculate_reading_time(get_the_ID())?></span>
+                                        <?php endif?>
+                                    <?php endforeach;?>
                                     </div>
                                 <?php endif;?>
                                 <?php if (@$fields['mos-post-content']) : ?>
