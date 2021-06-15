@@ -130,6 +130,8 @@ html{scroll-behavior:smooth}
 }
 .mos-post-meta.header-meta {
     font-size: 16px;
+    font-weight: 400;
+    color: var(--first-color);
 }
 
 body.archive .ast-archive-description, body.search .ast-archive-description, body.blog .ast-archive-description{display:none}
