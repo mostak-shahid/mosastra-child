@@ -133,7 +133,8 @@ html{scroll-behavior:smooth}
     font-weight:400;
     color:var(--first-color);
 }
-
+.mos-post-meta .published{display: none;}
+.mos-post-meta .updated{display: inline-block;}
 body.archive .ast-archive-description, body.search .ast-archive-description, body.blog .ast-archive-description{display:none}
 body.page .entry-header {display:none}
 body.archive .ast-author-box{border:1px solid #eee;padding:15px;flex-direction:row-reverse}
