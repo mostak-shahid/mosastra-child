@@ -289,7 +289,7 @@ function crb_attach_theme_options() {
                     );
                     $query = new WP_Query( $args );
                     if ($query->have_posts()) : ?>
-                        <div class="mos-post-grid-block mos-post-grid-six">
+                        <div class="mos-post-grid-block mos-post-grid-six feature-post-block">
                         <?php while ($query->have_posts()) : $query->the_post(); ?>
                             <div id="post-<?php the_ID(); ?>" <?php post_class( 'position-relative' ); ?>>
                                 <?php if (@$fields['mos-post-feature'] && has_post_thumbnail()) : ?>
@@ -305,11 +305,12 @@ function crb_attach_theme_options() {
                                     ?>
                                     <img width="<?php echo $width ?>" height="<?php echo $height ?>" src="<?php echo $imgurl ?>" class="post-featured-image wp-post-image" alt="<?php echo $image_alt ?>" loading="lazy">
                                 <?php endif;?>
+                                <div class="text-wrapper">
                                 <?php if (@$fields['mos-post-title']) : ?>
                                     <h4 class="post-title"><?php echo get_the_title()?></h4>
                                 <?php endif;?>
                                 <?php if (@$fields['mos-post-meta'] && sizeof(@$fields['mos-post-metas'])) : ?>
-                                    <div class="post-meta">
+                                    <div class="mos-post-meta post-meta">
                                     <?php foreach($fields['mos-post-metas'] as $meta) :?>
                                         <?php if ($meta == 'comments') : ?>
                                             <span class="meta-unit meta-comment"><?php comments_number('No Comments', '1 Comment', '% Comments');?></span>
@@ -329,7 +330,7 @@ function crb_attach_theme_options() {
                                             ?>
                                             </span>
                                         <?php elseif ($meta == 'author') : ?>
-                                            <span class="meta-unit meta-author"><?php echo get_the_author()?></span>
+                                            <span class="meta-unit meta-author">By <?php echo get_the_author()?></span>
                                         <?php elseif ($meta == 'date') : ?>
                                             <span class="meta-unit meta-date"><?php echo get_the_date()?></span>
                                         <?php elseif ($meta == 'tag') : ?>
@@ -348,7 +349,7 @@ function crb_attach_theme_options() {
                                                 ?>
                                             </span>
                                         <?php elseif ($meta == 'read-time') : ?>
-                                            <span class="meta-unit meta-read-time"><?php echo mos_calculate_reading_time(get_the_ID())?> minute of reading</span>
+                                            <span class="meta-unit meta-read-time"><?php echo mos_calculate_reading_time(get_the_ID())?></span>
                                         <?php endif?>
                                     <?php endforeach;?>
                                     </div>
@@ -359,6 +360,7 @@ function crb_attach_theme_options() {
                                 <?php if (@$fields['mos-post-btn']) : ?>
                                     <div class="wp-block-buttons"><div class="wp-block-button mb-0"><span class="wp-block-button__link"><?php echo (@$fields['mos-post-btn-text'])?$fields['mos-post-btn-text']:'Read More'; ?></span></div></div>
                                 <?php endif;?>
+                                </div>
                                 <a href="<?php echo get_the_permalink() ?>" class="hidden-link">Read More</a>
                             </div>
                         <?php endwhile?>
@@ -372,7 +374,7 @@ function crb_attach_theme_options() {
                     );
                     $query = new WP_Query( $args );
                     if ($query->have_posts()) : ?>
-                        <div class="mos-post-grid-block mos-post-grid-six">
+                        <div class="mos-post-grid-block mos-post-grid-six general-post-block">
                         <?php while ($query->have_posts()) : $query->the_post(); ?>
                             <div id="post-<?php the_ID(); ?>" <?php post_class( 'post-block-sm position-relative d-flex align-items-center' ); ?>>
                                 <div class="part-1">
@@ -395,7 +397,7 @@ function crb_attach_theme_options() {
                                         <h4 class="post-title mb-0"><?php echo get_the_title()?></h4>
                                     <?php endif;?>
                                     <?php if (@$fields['mos-post-meta'] && sizeof(@$fields['mos-post-metas'])) : ?>
-                                    <div class="post-meta">
+                                    <div class="mos-post-meta post-meta">
                                     <?php foreach($fields['mos-post-metas'] as $meta) :?>
                                         <?php if ($meta == 'comments') : ?>
                                             <span class="meta-unit meta-comment"><?php comments_number('No Comments', '1 Comment', '% Comments');?></span>
@@ -415,7 +417,7 @@ function crb_attach_theme_options() {
                                             ?>
                                             </span>
                                         <?php elseif ($meta == 'author') : ?>
-                                            <span class="meta-unit meta-author"><?php echo get_the_author()?></span>
+                                            <span class="meta-unit meta-author">By <?php echo get_the_author()?></span>
                                         <?php elseif ($meta == 'date') : ?>
                                             <span class="meta-unit meta-date"><?php echo get_the_date()?></span>
                                         <?php elseif ($meta == 'tag') : ?>
@@ -434,7 +436,7 @@ function crb_attach_theme_options() {
                                                 ?>
                                             </span>
                                         <?php elseif ($meta == 'read-time') : ?>
-                                            <span class="meta-unit meta-read-time"><?php echo mos_calculate_reading_time(get_the_ID())?> minute of reading</span>
+                                            <span class="meta-unit meta-read-time"><?php echo mos_calculate_reading_time(get_the_ID())?></span>
                                         <?php endif?>
                                     <?php endforeach;?>
                                     </div>

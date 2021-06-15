@@ -45,6 +45,16 @@ function child_enqueue_styles() {
 
 }
 add_action( 'wp_enqueue_scripts', 'child_enqueue_styles', 15 );
+function mos_calculate_reading_time( $post_id ) {
+
+    $post_content       = get_post_field( 'post_content', $post_id );
+    $stripped_content   = strip_shortcodes( $post_content );
+    $strip_tags_content = wp_strip_all_tags( $stripped_content );
+    $word_count         = count( preg_split( '/\s+/', $strip_tags_content ) );
+    $reading_time       = ceil( $word_count / 220 );
+
+    return $reading_time .' minutes of reading';
+}
 require_once 'aq_resizer.php';
 //require_once 'astra-custom.php';
 require_once 'hooks.php';
