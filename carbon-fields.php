@@ -240,9 +240,15 @@ function crb_attach_theme_options() {
     });
     Block::make( __( 'Mos Post Block' ) )
     ->add_fields( array(
+        Field::make( 'multiselect', 'mos-post-source-1', __( 'Select Posts' ) )
+            ->set_options(mos_get_posts()),
+        Field::make( 'multiselect', 'mos-post-source-2', __( 'Select Categories' ) )
+            ->set_options(mos_get_terms ('category', 'small')),
+        
         Field::make( 'text', 'mos-post-posts', __( 'No of Post' ) ),
         Field::make( 'text', 'mos-post-count', __( 'Excerpt Count' ) ),
         Field::make( 'text', 'mos-post-btn-text', __( 'Read More Text' ) ),
+        Field::make( 'text', 'mos-post-redirect-url', __( 'Redirect URL' ) ),
         
         Field::make( 'checkbox', 'mos-post-feature', 'Show Featured Image' ),
         Field::make( 'text', 'mos-post-feature-large', __( 'Large Image Size' ) )
@@ -287,6 +293,11 @@ function crb_attach_theme_options() {
                         'post_type' => 'post',
                         'posts_per_page' => 1,                    
                     );
+                    if (@fields['mos-post-source-1']) {
+                        $args['post__in'] = $fields['mos-post-source-1'];
+                    } elseif (@fields['mos-post-source-2']) {
+                        $args['category__in'] = $fields['mos-post-source-2'];                        
+                    }
                     $query = new WP_Query( $args );
                     if ($query->have_posts()) : ?>
                         <div class="mos-post-grid-block mos-post-grid-six feature-post-block">
@@ -370,11 +381,17 @@ function crb_attach_theme_options() {
                         </div>
                     <?php endif; ?>
                     <?php wp_reset_postdata(); ?>
-                    <?php $args = array(
+                    <?php 
+                    $args = array(
                         'post_type' => 'post',
                         'posts_per_page' => (@$fields['mos-post-posts'] && $fields['mos-post-posts'] > 2)?($fields['mos-post-posts'] - 1):0, 
                         'offset' => 1
-                    );
+                    );        
+                    if (@fields['mos-post-source-1']) {
+                        $args['post__in'] = $fields['mos-post-source-1'];
+                    } elseif (@fields['mos-post-source-2']) {
+                        $args['category__in'] = $fields['mos-post-source-2'];                        
+                    }
                     $query = new WP_Query( $args );
                     if ($query->have_posts()) : ?>
                         <div class="mos-post-grid-block mos-post-grid-six general-post-block">
@@ -465,14 +482,31 @@ function crb_attach_theme_options() {
                         'post_type' => 'post',
                         'posts_per_page' => (@$fields['mos-post-posts'])?$fields['mos-post-posts']:-1,                    
                     );
+                    if (@fields['mos-post-source-1']) {
+                        $args['post__in'] = $fields['mos-post-source-1'];
+                    } elseif (@fields['mos-post-source-2']) {
+                        $args['category__in'] = $fields['mos-post-source-2'];                        
+                    }
                     $query = new WP_Query( $args );
                     if ($query->have_posts()) : ?>
                         
                         <?php while ($query->have_posts()) : $query->the_post(); ?>
                             <div id="post-<?php the_ID(); ?>" <?php post_class( 'mos-post-grid-block mos-post-grid-four position-relative' ); ?>>
                                 <?php if (@$fields['mos-post-feature'] && has_post_thumbnail()) : ?>
-                                    <?php the_post_thumbnail( $size = 'full', array('class'=>'post-featured-image') ) ?>
+                                    <?php
+                                    $lsize = (@$fields['mos-post-feature-large'] && preg_match('/^\d+x\d+$/', $fields['mos-post-feature-large']))?$fields['mos-post-feature-large']:'530x315';
+                                    $slarr = explode('x',$lsize);
+                                    $width = intval($slarr[0]);
+                                    $height = intval($slarr[1]);
+                                    $attachment_id = get_post_thumbnail_id();
+                                    $rawurl = wp_get_attachment_url( $attachment_id );
+                                    $imgurl = aq_resize($rawurl,$width,$height, true);
+                                    $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', TRUE);
+                                    ?>
+                                    <?php //the_post_thumbnail( $size = 'full', array('class'=>'post-featured-image') ) ?>                                    
+                                    <img width="<?php echo $width ?>" height="<?php echo $height ?>" src="<?php echo $imgurl ?>" class="post-featured-image wp-post-image" alt="<?php echo $image_alt ?>" loading="lazy">
                                 <?php endif;?>
+                                <div class="text-wrapper">
                                 <?php if (@$fields['mos-post-title']) : ?>
                                     <h4 class="post-title"><?php echo get_the_title()?></h4>
                                 <?php endif;?>
@@ -531,6 +565,7 @@ function crb_attach_theme_options() {
                                 <?php if (@$fields['mos-post-btn']) : ?>
                                     <div class="wp-block-buttons"><div class="wp-block-button mb-0"><span class="wp-block-button__link"><?php echo (@$fields['mos-post-btn-text'])?$fields['mos-post-btn-text']:'Read More'; ?></span></div></div>
                                 <?php endif;?>
+                                </div>
                                 <a href="<?php echo get_the_permalink() ?>" class="hidden-link">Read More</a>
                             </div>    
                         <?php endwhile?>
@@ -539,6 +574,9 @@ function crb_attach_theme_options() {
                 <?php endif?>                
                 </div>
             </div>
+            <?php if (@$fields['mos-post-redirect-url']) : ?>
+                <div class="wp-block-buttons justify-content-center"><div class="wp-block-button"><a href="<?php echo esc_html( $fields['mos-post-redirect-url'] ); ?>" class="wp-block-button__link">Read More</a></div></div>
+            <?php endif?>
         </div>
         <?php
     });
