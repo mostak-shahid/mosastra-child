@@ -114,7 +114,14 @@ html{scroll-behavior:smooth}
 .align-self-center{align-self:center!important}
 .align-self-baseline{align-self:baseline!important}
 .align-self-stretch{align-self:stretch!important}
-
+.mos-post-meta {
+    display: block;
+}
+.mos-post-meta .meta-unit+.meta-unit:before {
+    content: '/';
+    padding-left: 10px;
+    padding-right: 10px;
+}
 .ast-plain-container.ast-no-sidebar .entry-content .wp-block-group.full-window>.wp-block-group__inner-container,.ast-plain-container.ast-no-sidebar .entry-content .wp-block-group.full-window-no-padding>.wp-block-group__inner-container{max-width:100%}
 .ast-plain-container.ast-no-sidebar .entry-content .wp-block-group.full-window-no-padding>.wp-block-group__inner-container{padding-left:0;padding-right:0}
 
