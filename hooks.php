@@ -83,7 +83,7 @@ if ( !is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
     }
 }
 
-add_action('astra_header_after', 'custom_page_title');
+/*add_action('astra_header_after', 'custom_page_title');
 function custom_page_title () {
     $site_post_title = get_post_meta(get_the_ID(), 'site-post-title', true); 
     if($site_post_title != 'disabled'): 
@@ -113,7 +113,7 @@ function custom_page_title () {
         </header>
     <?php 
     endif;
-}
+}*/
 
 if ( ! function_exists( 'mos_post_classes' ) ) {
 	function mos_post_classes( $classes ) {
