@@ -144,7 +144,7 @@ function custom_page_title () {
                     <?php if (get_post_type() == 'post') : ?>
                     <?php 
                         $astra_options = get_option('astra-settings', true);
-                        if (sizeof($astra_options['blog-single-meta'])) {
+                        if (is_array(@$astra_options['blog-single-meta']) && sizeof($astra_options['blog-single-meta'])) {
                             echo '<span class="mos-post-meta header-meta">';
                             foreach($astra_options['blog-single-meta'] as $meta) {
                                 echo '<span class="meta-unit meta-'.$meta.'">';
