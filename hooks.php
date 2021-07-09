@@ -211,7 +211,72 @@ function custom_page_title () {
 add_action('wp_head', 'necessary_css_variables');
 if (!function_exists('necessary_css_variables')) {
     function necessary_css_variables(){
-        $site_content_width = astra_get_option( 'site-content-width', 1200 );
+			$is_site_rtl                = is_rtl();
+			$site_content_width         = astra_get_option( 'site-content-width', 1200 );
+			$header_logo_width          = astra_get_option( 'ast-header-responsive-logo-width' );
+			$container_layout           = astra_get_option( 'site-content-layout' );
+			$title_color                = astra_get_option( 'header-color-site-title' );
+			$title_hover_color          = astra_get_option( 'header-color-h-site-title' );
+			$tagline_color              = astra_get_option( 'header-color-site-tagline' );
+			$site_title_setting         = astra_get_option( 'display-site-title-responsive' );
+			$desktop_title_visibility   = $site_title_setting['desktop'] ? 'block' : 'none';
+			$tablet_title_visibility    = $site_title_setting['tablet'] ? 'block' : 'none';
+			$mobile_title_visibility    = $site_title_setting['mobile'] ? 'block' : 'none';
+			$site_tagline_setting       = astra_get_option( 'display-site-tagline-responsive' );
+			$desktop_tagline_visibility = ( $site_tagline_setting['desktop'] ) ? 'block' : 'none';
+			$tablet_tagline_visibility  = ( $site_tagline_setting['tablet'] ) ? 'block' : 'none';
+			$mobile_tagline_visibility  = ( $site_tagline_setting['mobile'] ) ? 'block' : 'none';
+
+			// Site Background Color.
+			$box_bg_obj = astra_get_option( 'site-layout-outside-bg-obj-responsive' );
+
+			// Color Options.
+			$text_color       = astra_get_option( 'text-color' );
+			$theme_color      = astra_get_option( 'theme-color' );
+			$link_color       = astra_get_option( 'link-color', $theme_color );
+			$link_hover_color = astra_get_option( 'link-h-color' );
+
+			// Typography.
+			$body_font_size          = astra_get_option( 'font-size-body' );
+			$body_line_height        = astra_get_option( 'body-line-height' );
+			$para_margin_bottom      = astra_get_option( 'para-margin-bottom' );
+			$body_text_transform     = astra_get_option( 'body-text-transform' );
+			$headings_font_family    = astra_get_option( 'headings-font-family' );
+			$headings_font_weight    = astra_get_option( 'headings-font-weight' );
+			$headings_text_transform = astra_get_option( 'headings-text-transform' );
+			$headings_line_height    = astra_get_option( 'headings-line-height' );
+			$site_title_font_size    = astra_get_option( 'font-size-site-title' );
+			$site_tagline_font_size  = astra_get_option( 'font-size-site-tagline' );
+
+			$single_post_title_font_size     = astra_get_option( 'font-size-entry-title' );
+			$archive_summary_title_font_size = astra_get_option( 'font-size-archive-summary-title' );
+			$archive_post_title_font_size    = astra_get_option( 'font-size-page-title' );
+			$heading_h1_font_size            = astra_get_option( 'font-size-h1' );
+			$heading_h2_font_size            = astra_get_option( 'font-size-h2' );
+			$heading_h3_font_size            = astra_get_option( 'font-size-h3' );
+			$heading_h4_font_size            = astra_get_option( 'font-size-h4' );
+			$heading_h5_font_size            = astra_get_option( 'font-size-h5' );
+			$heading_h6_font_size            = astra_get_option( 'font-size-h6' );
+
+			/**
+			 * Heading Typography - h1 - h3.
+			 */
+			$headings_font_transform = astra_get_option( 'headings-text-transform', $body_text_transform );
+
+			$h1_font_family    = astra_get_option( 'font-family-h1' );
+			$h1_font_weight    = astra_get_option( 'font-weight-h1' );
+			$h1_line_height    = astra_get_option( 'line-height-h1' );
+			$h1_text_transform = astra_get_option( 'text-transform-h1' );
+
+			$h2_font_family    = astra_get_option( 'font-family-h2' );
+			$h2_font_weight    = astra_get_option( 'font-weight-h2' );
+			$h2_line_height    = astra_get_option( 'line-height-h2' );
+			$h2_text_transform = astra_get_option( 'text-transform-h2' );
+
+			$h3_font_family    = astra_get_option( 'font-family-h3' );
+			$h3_font_weight    = astra_get_option( 'font-weight-h3' );
+			$h3_line_height    = astra_get_option( 'line-height-h3' );
+			$h3_text_transform = astra_get_option( 'text-transform-h3' );
         ?>
         <style>
         :root{
