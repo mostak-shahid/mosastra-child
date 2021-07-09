@@ -207,3 +207,19 @@ function custom_page_title () {
     <?php 
     endif;
 }
+
+add_action('wp_head', 'necessary_css_variables');
+if (!function_exists('necessary_css_variables')) {
+    function necessary_css_variables(){
+        $site_content_width = astra_get_option( 'site-content-width', 1200 );
+        ?>
+        <style>
+        :root{
+            <?php if($site_content_width) : ?>
+            --site-content-width:<?php echo $site_content_width ?>px;
+            <?php endif?>
+        }
+        </style>
+        <?php
+    }
+}
