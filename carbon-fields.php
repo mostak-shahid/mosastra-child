@@ -18,7 +18,7 @@ function crb_attach_theme_options() {
             Field::make( 'image', 'crb_photo' ),
         ));*/
     Block::make( __( 'Mos Media Block' ) )
-    ->add_fields( array(
+        ->add_fields( array(
         Field::make( 'image', 'mos-media-image', __( 'Image' ) ),
         Field::make( 'text', 'mos-media-icon-class', __( 'Icon Class' ) ),
         Field::make( 'textarea', 'mos-media-svg', __( 'SVG Code' ) ),
@@ -56,7 +56,7 @@ function crb_attach_theme_options() {
     ->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
         ?>
         <div class="mos-media-block-wrapper <?php echo (@$attributes['className'])?$attributes['className']:'' ?>">
-            <div class="mos-media-block text-<?php echo esc_html( $fields['mos-media-alignment'] ) ?>">    
+            <div class="mos-media-block position-relative text-<?php echo esc_html( $fields['mos-media-alignment'] ) ?>">    
                 <?php if (sizeof($fields['mos-media-block-one'])) : ?>
                 <div class="part-one">  
                     <?php foreach($fields['mos-media-block-one'] as $part_1) : ?>
@@ -71,7 +71,7 @@ function crb_attach_theme_options() {
                         <?php elseif ($part_1 == 'content' && $fields['mos-media-content']) :?>
                             <div class="desc"><?php echo apply_filters( 'the_content', $fields['mos-media-content'] ); ?></div> 
                         <?php elseif ($part_1 == 'button' && $fields['mos-media-btn-title'] && $fields['mos-media-btn-url']) :?>   
-                            <div class="wp-block-buttons"><div class="wp-block-button"><a href="<?php echo esc_url( $fields['mos-media-btn-url'] ); ?>" title="" class="wp-block-button__link"><?php echo do_shortcode( $fields['mos-media-btn-title'] ); ?></a></div></div> 
+                            <div class="wp-block-buttons"><div class="wp-block-button"><span title="" class="wp-block-button__link"><?php echo do_shortcode( $fields['mos-media-btn-title'] ); ?></span></div></div> 
                         <?php endif;?>
                     <?php endforeach;?>              
                 </div>
@@ -90,10 +90,13 @@ function crb_attach_theme_options() {
                         <?php elseif ($part_2 == 'content' && $fields['mos-media-content']) :?>
                             <div class="desc"><?php echo apply_filters( 'the_content', $fields['mos-media-content'] ); ?></div> 
                         <?php elseif ($part_2 == 'button' && $fields['mos-media-btn-title'] && $fields['mos-media-btn-url']) :?>   
-                            <div class="wp-block-buttons"><div class="wp-block-button"><a href="<?php echo esc_url( $fields['mos-media-btn-url'] ); ?>" title="" class="wp-block-button__link"><?php echo do_shortcode( $fields['mos-media-btn-title'] ); ?></a></div></div> 
+                            <div class="wp-block-buttons"><div class="wp-block-button"><span title="" class="wp-block-button__link"><?php echo do_shortcode( $fields['mos-media-btn-title'] ); ?></span></div></div> 
                         <?php endif;?>
                     <?php endforeach;?>               
                 </div>
+                <?php endif?>
+                <?php if ($fields['mos-media-btn-url']) :?>
+                    <a href="<?php echo esc_url( $fields['mos-media-btn-url'] ); ?>" class="hidden-link">Read more</a>
                 <?php endif?>
             </div>
         </div>
@@ -669,7 +672,8 @@ function crb_attach_theme_options() {
             </div>
         </div>
         <?php
-    }); Block::make( __( 'Mos Carousel Block' ) )
+    }); 
+    Block::make( __( 'Mos Carousel Block' ) )
     ->add_fields( array(
         Field::make( 'select', 'image-carousel-grid', __( 'Large Device Grid' ) )
         ->set_options( array(
